@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <title>{{project.name| title}}</title>
+</head>
+<body>
+
+<div class="container">
+    <h1></h1>
+    <p>Date: {{date}}</p>
+    <p>ProjectName: {{project.name}}</p>
+
+
+
+<table class="table table-striped">
+    <caption>Routes</caption>
+    <thead>
+    <tr>
+        <th data-sortable="true" data-sorter="sortHander">ClassNameMD5</th>
+        <th>ClassName</th>
+        <th>ClassPath</th>
+        <th>Routes</th>
+        <th>Description</th>
+        <th>Credibility</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for fact in facts %}
+    <tr>
+        <td>{{fact.classNameMD5}}</td>
+        <td>{{fact.className}}</td>
+        <td>{{fact.classPath}}</td>
+        <td>{{fact.routes}}</td>
+        <td>{{fact.description}}</td>
+        <td>{{fact.credibility}}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td align="center" colspan="5"><h3>剩下10000条请付费查看(一元一条，童叟无欺)！！！</h3></td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>
