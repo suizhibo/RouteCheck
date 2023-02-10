@@ -1,6 +1,6 @@
 该项目的整体设计请查看：[路由分析引擎总体设计](https://github.com/suizhibo/RouteCheck/blob/master/%E8%B7%AF%E7%94%B1%E5%88%86%E6%9E%90%E5%BC%95%E6%93%8E%E6%80%BB%E4%BD%93%E8%AE%BE%E8%AE%A1.pptx
 )
-# 如何新增一个新的FactAnalyzer？
+# 如何新增一个FactAnalyzer？
 
 1. 实现一个类，名称形式如下XXFactAnalyzer，该类需继承AbstractFactAnalyzer，并添加注解FactAnalyzerAnnotations；
 
