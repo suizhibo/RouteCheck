@@ -1,14 +1,14 @@
-该项目的整体设计请查看：https://github.com/suizhibo/RouteCheck/blob/master/%E8%B7%AF%E7%94%B1%E5%88%86%E6%9E%90%E5%BC%95%E6%93%8E%E6%80%BB%E4%BD%93%E8%AE%BE%E8%AE%A1.pptx
-
-# 下面介绍如何新增一个新的FactAnalyzer
+该项目的整体设计请查看：[路由分析引擎总体设计](https://github.com/suizhibo/RouteCheck/blob/master/%E8%B7%AF%E7%94%B1%E5%88%86%E6%9E%90%E5%BC%95%E6%93%8E%E6%80%BB%E4%BD%93%E8%AE%BE%E8%AE%A1.pptx
+)
+# 如何新增一个新的FactAnalyzer？
 
 1. 实现一个类，名称形式如下XXFactAnalyzer，该类需继承AbstractFactAnalyzer，并添加注解FactAnalyzerAnnotations；
 
 2. 为上述类添加私有属性NAME，TYPE（class, config, union）以及DESCRIPTION；
 
-3. 实现public void prepare(Object object) {  }、public void analysis(Object object, Collection<Fact> factChain) throws FactAnalyzerException {}、public String getName() {}、public String getType() {}、public String getFactDescription() {}以及public String toString() {}方法。
+3. 实现public void prepare(Object object) {}、public void analysis(Object object, Collection<Fact> factChain) throws FactAnalyzerException {}、public String getName() {}、public String getType() {}、public String getFactDescription() {}以及public String toString() {}方法。
 
-4. prepare方法做一些过滤条件的筛选，并根据筛选结果判断是否启用该FactAnalyzer；
+4. prepare方法做一些前置条件的筛选，并根据筛选结果判断是否启用该FactAnalyzer（所有新增FactAnalyzer默认启用）；
 
 5. analysis方法完成具体的事实分析。
 
