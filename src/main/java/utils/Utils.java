@@ -1,5 +1,7 @@
 package utils;
 
+import entry.BaseWebXml;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.*;
 
@@ -10,6 +12,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public class Utils {
+
+    public static Command command = null;
+
     public static boolean mkDir(String path){
         File file = null;
         try {
@@ -212,4 +217,23 @@ public class Utils {
         return new org.apache.commons.beanutils.BeanMap(obj);
     }
 
+    public static BaseWebXml parseWebXml(String webXmlPath) throws Exception {
+        BaseWebXml baseWebXml = new BaseWebXml();
+        try {
+            String textFromFile = FileUtils.readFileToString(new File(webXmlPath), "UTF-8");
+            Document doc = DocumentHelper.parseText(textFromFile);
+            List<Attribute> attributes = doc.getRootElement().attributes();
+            Map<String, String> stringStringMap = new HashMap<>();
+            for (Attribute attr :
+                    attributes) {
+                stringStringMap.put(attr.getName(), attr.getValue());
+            }
+            baseWebXml.setAttributes(stringStringMap);
+            Map<String, Object> map = (Map<String, Object>) Utils.xmlToMapWithAttr(doc.getRootElement());
+            baseWebXml.setWebApp(map);
+        } catch (Exception e) {
+            throw e;
+        }
+        return baseWebXml;
+    }
 }

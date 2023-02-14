@@ -18,7 +18,7 @@ import java.util.*;
 public class BaseProjectAnalyzer {
     private static final Logger LOGGER = LoggerFactory.getLogger(BaseProjectAnalyzer.class);
 
-    private final List<String> CONFIG_SUFFIXES = Arrays.asList("xml", "yaml");
+    private final List<String> CONFIG_SUFFIXES = Arrays.asList("xml", "yaml", "wsdl");
 
     private final String JRE_DIR = System.getProperty("java.home")+ File.separator+
             "lib" + File.separator + "rt.jar";
@@ -57,6 +57,7 @@ public class BaseProjectAnalyzer {
                 String filePath = file.getAbsolutePath();
                 Config config = new Config(fileName, filePath, suffix);
                 project.addConfig(config);
+                project.setConfigMap(filePath, config);
             }
         }
         else if (file.isDirectory()) {

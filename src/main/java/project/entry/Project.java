@@ -2,10 +2,7 @@ package project.entry;
 
 import soot.SootClass;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Project {
     public String getName() {
@@ -20,6 +17,20 @@ public class Project {
     private Set<SootClass> classes;
 
     private Collection<Config> configs;
+
+    public Map<String, Config> getConfigMap() {
+        return configMap;
+    }
+
+    public void setConfigMap(Map<String, Config> configMap) {
+        this.configMap = configMap;
+    }
+
+    public void setConfigMap(String key, Config config) {
+        this.configMap.put(key, config);
+    }
+
+    private Map<String, Config> configMap = new HashMap<>();
 
     private String service;
 

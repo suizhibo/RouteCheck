@@ -10,9 +10,11 @@ import project.entry.Project;
 import reporting.ReportGenerator;
 import reporting.ReporterFactory;
 import soot.SootClass;
+import soot.Unit;
 import utils.Command;
 import utils.CoreClassLoader;
 import entry.Settings;
+import utils.Utils;
 import utils.YamlUtil;
 import entry.Fact;
 
@@ -37,6 +39,7 @@ public class Engine {
 
     protected void parseCommand(String[] args) throws ParseException {
         command.parse(args);
+        Utils.command = command;
     }
 
     protected Settings loadSettings() throws LoadSettingsException {
