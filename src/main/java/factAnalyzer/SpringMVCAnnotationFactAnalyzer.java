@@ -25,22 +25,23 @@ public class SpringMVCAnnotationFactAnalyzer extends AbstractFactAnalyzer{
     private final String DESCRIPTION = "";
 
     private final String PATTERN = "Lorg/springframework/stereotype/Controller;";
-    private final String  PATTERNMAP = "Lorg/springframework/web/bind/annotation/RequestMapping;";
+    private final String PATTERNMAP = "Lorg/springframework/web/bind/annotation";
 
     private Collection<String> findRoute(ArrayList<AnnotationTag> annotationTags){
         Set<String> route = new HashSet<>();
         annotationTags.forEach(a -> {
-            if(a.getType().equals(PATTERNMAP)){
+            if(a.getType().startsWith(PATTERNMAP) && a.getType().contains("Mapping")){
                 a.getElems().forEach(e ->{
-                    if(e.getClass().toString().contains("AnnotationArrayElem")){
-                        if(e.getName().equals("path") || ((AnnotationArrayElem) e).getValues().toString().contains("/")){
-                            AnnotationArrayElem annotationArrayElem = (AnnotationArrayElem) e;
-                            annotationArrayElem.getValues().forEach(v ->{
-                                AnnotationStringElem annotationStringElem = (AnnotationStringElem) v;
-                                route.add(annotationStringElem.getValue());
-                            });
-                        }
-                    }
+                    try{
+                        if(e.getClass().toString().contains("AnnotationArrayElem")){
+                            if(e.getName().equals("path") || ((AnnotationArrayElem) e).getValues().toString().contains("/")){
+                                AnnotationArrayElem annotationArrayElem = (AnnotationArrayElem) e;
+                                annotationArrayElem.getValues().forEach(v ->{
+                                    AnnotationStringElem annotationStringElem = (AnnotationStringElem) v;
+                                    route.add(annotationStringElem.getValue());
+                                });
+                            }
+                        }}catch (Exception ex){}
                 });
             }
         });
@@ -57,7 +58,7 @@ public class SpringMVCAnnotationFactAnalyzer extends AbstractFactAnalyzer{
         // TODO: 提取多重继承关系中的类注解的RequestMapping
         Set<String> prefix = (Set<String>) findRoute(annotationTags);
         if(sootClassVisibilityAnnotationTagString.contains(PATTERN) ||
-            sootClassVisibilityAnnotationTagString.contains(PATTERNMAP)){
+                sootClassVisibilityAnnotationTagString.contains(PATTERNMAP)){
             List<SootMethod> sootMethodList = sootClass.getMethods();
             sootMethodList.forEach(sootMethod -> {
                 VisibilityAnnotationTag visibilityAnnotationTagTemp =
@@ -87,6 +88,7 @@ public class SpringMVCAnnotationFactAnalyzer extends AbstractFactAnalyzer{
             });
         }
     }
+
 
     @Override
     public String getName() {
