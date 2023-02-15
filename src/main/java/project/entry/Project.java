@@ -50,6 +50,16 @@ public class Project {
 
     private Collection<Jar> jars;
 
+    public Map<String, Jar> getJarMap() {
+        return jarMap;
+    }
+
+    public void setJarMap(String key, Jar jar) {
+        this.jarMap.put(key, jar);
+    }
+
+    private Map<String, Jar> jarMap = new HashMap<>();
+
     public Project(){
         this.configs = new ArrayList<>();
         this.classes = new HashSet<>();
