@@ -89,7 +89,9 @@ public class BaseProjectAnalyzer {
                 String filePath = file.getAbsolutePath();
                 Jar jar = new Jar(fileName, filePath);
                 project.addJar(jar);
+                project.setJarMap(fileName, jar);
                 jarFilePaths.add(filePath);
+
             }
         }
         else if (file.isDirectory()) {
