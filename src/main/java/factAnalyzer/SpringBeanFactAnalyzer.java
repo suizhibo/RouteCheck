@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 @FactAnalyzerAnnotations(
-        filterName = "SpringBeanFactAnalyzer"
+        name = "SpringBeanFactAnalyzer"
 )
 public class SpringBeanFactAnalyzer extends SpringFactAnalyzer{
     private final String NAME = "SpringBeanFactAnalyzer";

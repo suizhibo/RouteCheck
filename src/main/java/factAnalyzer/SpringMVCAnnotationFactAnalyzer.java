@@ -15,7 +15,7 @@ import java.util.*;
 
 //https://www.cnblogs.com/lyh233/p/12047942.html
 @FactAnalyzerAnnotations(
-        filterName = "SpringMVCAnnotationFactAnalyzer"
+        name = "SpringMVCAnnotationFactAnalyzer"
 )
 public class SpringMVCAnnotationFactAnalyzer extends SpringFactAnalyzer{
     private final String NAME = "SpringMVCAnnotationFactAnalyzer";

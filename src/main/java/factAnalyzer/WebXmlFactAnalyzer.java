@@ -1,12 +1,8 @@
 package factAnalyzer;
 
 import annotations.FactAnalyzerAnnotations;
-import entry.BaseWebXml;
 import entry.Fact;
 import exceptions.FactAnalyzerException;
-import org.apache.commons.io.FileUtils;
-import org.dom4j.Attribute;
-import org.dom4j.DocumentHelper;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -19,7 +15,7 @@ import java.io.InputStream;
 import java.util.*;
 
 @FactAnalyzerAnnotations(
-        filterName = "WebXmlFactAnalyzer"
+        name = "WebXmlFactAnalyzer"
 )
 
 /*

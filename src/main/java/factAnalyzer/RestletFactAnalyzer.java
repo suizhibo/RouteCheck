@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.Map;
 
 @FactAnalyzerAnnotations(
-        filterName = "RestletFactAnalyzer"
+        name = "RestletFactAnalyzer"
 )
 public class RestletFactAnalyzer extends JAXRSFactAnalyzer{
     private final String NAME = "RestletFactAnalyzer";

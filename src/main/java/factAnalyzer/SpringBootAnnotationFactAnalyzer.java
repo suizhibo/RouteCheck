@@ -3,7 +3,6 @@ package factAnalyzer;
 import annotations.FactAnalyzerAnnotations;
 import entry.Fact;
 import exceptions.FactAnalyzerException;
-import fj.P;
 import soot.SootClass;
 import soot.SootMethod;
 import soot.tagkit.AnnotationArrayElem;
@@ -15,7 +14,7 @@ import utils.Utils;
 import java.util.*;
 
 @FactAnalyzerAnnotations(
-        filterName = "SpringBootAnnotationFactAnalyzer"
+        name = "SpringBootAnnotationFactAnalyzer"
 )
 public class SpringBootAnnotationFactAnalyzer extends SpringFactAnalyzer{
     private final String NAME = "SpringBootAnnotationFactAnalyzer";

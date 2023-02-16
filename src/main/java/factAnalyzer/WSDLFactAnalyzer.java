@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 @FactAnalyzerAnnotations(
-        filterName = "WSDLFactAnalyzer"
+        name = "WSDLFactAnalyzer"
 )
 public class WSDLFactAnalyzer extends SOAPFactAnalyzer{
     private final String NAME = "WSDLFactAnalyzer";

@@ -7,7 +7,7 @@ import entry.Fact;
 import java.util.*;
 
 @FactAnalyzerAnnotations(
-        filterName = "UnionFactAnalyzer"
+        name = "UnionFactAnalyzer"
 )
 public class UnionFactAnalyzer extends AbstractFactAnalyzer {
 

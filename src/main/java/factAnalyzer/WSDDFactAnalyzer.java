@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @FactAnalyzerAnnotations(
-        filterName = "WSDDFactAnalyzer"
+        name = "WSDDFactAnalyzer"
 )
 
 public class WSDDFactAnalyzer extends SOAPFactAnalyzer{

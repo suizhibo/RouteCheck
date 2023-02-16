@@ -17,12 +17,8 @@
 package factAnalyzer;
 
 import annotations.FactAnalyzerAnnotations;
-import entry.BaseWebXml;
 import entry.Fact;
 import exceptions.FactAnalyzerException;
-import org.apache.commons.io.FileUtils;
-import org.dom4j.Attribute;
-import org.dom4j.DocumentHelper;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -35,7 +31,7 @@ import java.io.InputStream;
 import java.util.*;
 
 @FactAnalyzerAnnotations(
-        filterName = "WebXmlFactAnalyzer"
+        name = "WebXmlFactAnalyzer"
 )
 
 /*
@@ -72,11 +68,11 @@ public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
             Document document = saxBuilder.build(is);
             Element rootElement = document.getRootElement();
             List<Element> children = rootElement.getChildren();
-            children.forEach(child ->{
-                if(child.getName().equals("servlet")){
+            children.forEach(child -> {
+                if (child.getName().equals("servlet")) {
                     String servletName = child.getChildText("servlet-name", child.getNamespace());
                     servlets.put(servletName, child);
-                }else if(child.getName().equals("servlet-mapping")){
+                } else if (child.getName().equals("servlet-mapping")) {
                     String servletName = child.getChildText("servlet-name", child.getNamespace());
                     Set<Element> values = servletMappings.getOrDefault(servletName, new HashSet<Element>());
                     values.add(child);
@@ -86,7 +82,7 @@ public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
             if (servlets.size() > 0 && servletMappings.size() > 0) {
                 servlets.forEach((name, servlet) -> {
                     Set<Element> servletMapping = servletMappings.get(name);
-                    servletMapping.forEach(sm ->{
+                    servletMapping.forEach(sm -> {
                         Fact fact = new Fact();
                         String servletClass = servlet.getChildText("servlet-class", servlet.getNamespace());
                         fact.setClassNameMD5(Utils.getMD5Str(servletClass));

@@ -8,7 +8,7 @@ import soot.tagkit.VisibilityAnnotationTag;
 import java.util.Map;
 
 @FactAnalyzerAnnotations(
-        filterName = "RESTEasyFactAnalyzer"
+        name = "RESTEasyFactAnalyzer"
 )
 public class RESTEasyFactAnalyzer extends JAXRSFactAnalyzer{
     private final String NAME = "RESTEasyFactAnalyzer";

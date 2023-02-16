@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @FactAnalyzerAnnotations(
-        filterName = "HttpServletFactAnalyzer"
+        name = "HttpServletFactAnalyzer"
 )
 public class HttpServletFactAnalyzer extends AbstractFactAnalyzer{
     private final String NAME = "HttpServletFactAnalyzer";

@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 @FactAnalyzerAnnotations(
-        filterName = "SOAPUnionFactAnalyzer"
+        name = "SOAPUnionFactAnalyzer"
 )
 public class SOAPUnionFactAnalyzer extends UnionFactAnalyzer {
     private final String NAME = "SOAPUnionFactAnalyzer";

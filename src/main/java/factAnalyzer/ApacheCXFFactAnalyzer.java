@@ -8,7 +8,7 @@ import soot.tagkit.VisibilityAnnotationTag;
 import java.util.Map;
 
 @FactAnalyzerAnnotations(
-        filterName = "ApacheCXFFactAnalyzer"
+        name = "ApacheCXFFactAnalyzer"
 )
 public class ApacheCXFFactAnalyzer extends JAXRSFactAnalyzer{
     private final String NAME = "ApacheCXFFactAnalyzer";

@@ -18,7 +18,7 @@ import java.util.List;
 
 //https://www.cnblogs.com/lyh233/p/12047942.html
 @FactAnalyzerAnnotations(
-        filterName = "SpringMVCWebXmlFactAnalyzer"
+        name = "SpringMVCWebXmlFactAnalyzer"
 )
 public class SpringMVCWebXmlFactAnalyzer extends SpringFactAnalyzer {
     private final String NAME = "SpringMVCWebXmlFactAnalyzer";

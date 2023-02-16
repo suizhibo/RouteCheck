@@ -8,7 +8,7 @@ import soot.tagkit.VisibilityAnnotationTag;
 import java.util.Map;
 
 @FactAnalyzerAnnotations(
-        filterName = "ApacheWinkFactAnalyzer"
+        name = "ApacheWinkFactAnalyzer"
 )
 public class ApacheWinkFactAnalyzer extends JAXRSFactAnalyzer{
     private final String NAME = "ApacheWinkFactAnalyzer";
