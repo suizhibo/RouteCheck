@@ -17,92 +17,92 @@
 package factAnalyzer;
 
 import annotations.FactAnalyzerAnnotations;
-import exceptions.FactAnalyzerException;
-import soot.SootClass;
-import soot.tagkit.AnnotationArrayElem;
-import soot.tagkit.AnnotationStringElem;
-import soot.tagkit.AnnotationTag;
-import soot.tagkit.VisibilityAnnotationTag;
-import utils.Utils;
+import entry.BaseWebXml;
 import entry.Fact;
+import exceptions.FactAnalyzerException;
+import org.apache.commons.io.FileUtils;
+import org.dom4j.Attribute;
+import org.dom4j.DocumentHelper;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.input.SAXBuilder;
+import project.entry.Config;
+import utils.Utils;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.*;
 
 @FactAnalyzerAnnotations(
-        filterName = "HttpServletFactAnalyzer"
+        filterName = "WebXmlFactAnalyzer"
 )
-public class HttpServletFactAnalyzer extends AbstractFactAnalyzer{
-    private final String NAME = "HttpServletFactAnalyzer";
 
-    private final String TYPE = "class";
+/*
+https://docs.oracle.com/cd/E13222_01/wls/docs81/webapp/web_xml.html
+*/
+public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
+    private final String NAME = "WebXmlFactAnalyzer";
+    private final String TYPE = "config";
     private final String DESCRIPTION = "";
+
+    static Map<String, Element> servlets = new HashMap<>();
+    static Map<String, Set<Element>> servletMappings = new HashMap<>();
 
     @Override
     public void prepare(Object object) {
-        // TODO： nothing
-    }
-
-    private boolean hasSuperClass(SootClass sootClass){
-        SootClass sc = sootClass.getSuperclass();
-        if(sc.getName().equals("javax.servlet.http.HttpServlet")){
-            return true;
+        Config config = (Config) object;
+        String suffix = config.getSuffix();
+        if (suffix != null && suffix.equals("xml")) {
+            setEnable(true);
+        } else {
+            setEnable(false);
         }
-        if(sc.hasSuperclass()){
-            return hasSuperClass(sc);
-        }
-        return false;
+        // TODO: 判断是否包含<web-app>标签
     }
-
 
     @Override
     public void analysis(Object object, Collection<Fact> factChain) throws FactAnalyzerException {
         try {
-            Fact fact = new Fact();
-            SootClass sootClass = (SootClass) object;
-            // TODO: 1.判断是否使用注解; 2.判断是否继承HttpServlet
-            AtomicBoolean hasWebServlet = new AtomicBoolean(false);
-            VisibilityAnnotationTag visibilityAnnotationTag = (VisibilityAnnotationTag) sootClass.getTag("VisibilityAnnotationTag");
-            if(visibilityAnnotationTag != null && visibilityAnnotationTag.hasAnnotations()){
-                ArrayList<AnnotationTag> annotationTags =  visibilityAnnotationTag.getAnnotations();
-                annotationTags.forEach(a -> {
-                    if(a.getType().equals("Ljavax/servlet/annotation/WebServlet;")){
-                        a.getElems().forEach(e ->{
-                            if(e.getClass().toString().contains("AnnotationArrayElem")){
-                                if(e.getName().equals("urlPatterns") || e.toString().contains("/")){
-                                    fact.setClassNameMD5(Utils.getMD5Str(sootClass.getName()));
-                                    AnnotationArrayElem annotationArrayElem = (AnnotationArrayElem) e;
-                                    annotationArrayElem.getValues().forEach(v ->{
-                                        AnnotationStringElem annotationStringElem = (AnnotationStringElem) v;
-                                        String route = annotationStringElem.getValue();
-                                        fact.setRoute(route);
-                                    });
-                                    fact.setClassName(sootClass.getName());
-                                    fact.setClassPath(sootClass.getFilePath());
-                                    fact.setDescription("类文件中使用注解：" + a.toString());
-                                    fact.setCredibility(3);
-                                    hasWebServlet.set(true);
-                                }
-                            }
-                        });
-                    }
+            Config config = (Config) object;
+            String filePath = config.getFilePath();
+            // TODO: 解析web.xml
+            SAXBuilder saxBuilder = new SAXBuilder();
+            InputStream is = new FileInputStream(new File(filePath));
+            Document document = saxBuilder.build(is);
+            Element rootElement = document.getRootElement();
+            List<Element> children = rootElement.getChildren();
+            children.forEach(child ->{
+                if(child.getName().equals("servlet")){
+                    String servletName = child.getChildText("servlet-name", child.getNamespace());
+                    servlets.put(servletName, child);
+                }else if(child.getName().equals("servlet-mapping")){
+                    String servletName = child.getChildText("servlet-name", child.getNamespace());
+                    Set<Element> values = servletMappings.getOrDefault(servletName, new HashSet<Element>());
+                    values.add(child);
+                    servletMappings.put(servletName, values);
+                }
+            });
+            if (servlets.size() > 0 && servletMappings.size() > 0) {
+                servlets.forEach((name, servlet) -> {
+                    Set<Element> servletMapping = servletMappings.get(name);
+                    servletMapping.forEach(sm ->{
+                        Fact fact = new Fact();
+                        String servletClass = servlet.getChildText("servlet-class", servlet.getNamespace());
+                        fact.setClassNameMD5(Utils.getMD5Str(servletClass));
+                        fact.setClassName(servletClass);
+                        fact.setRoute(sm.getChildText("url-pattern", sm.getNamespace()));
+                        fact.setDescription(String.format("从文件%s中提取出servlet和servlet-mapping", config.getFilePath()));
+                        fact.setCredibility(3);
+                        factChain.add(fact);
+                    });
                 });
             }
-
-            if(!hasWebServlet.get() && sootClass.hasSuperclass()){
-                if(hasSuperClass(sootClass)){
-                    fact.setClassNameMD5(Utils.getMD5Str(sootClass.getName()));
-                    fact.setClassName(sootClass.getName());
-                    fact.setClassPath(sootClass.getFilePath());
-                    fact.setCredibility(1);
-                    fact.setDescription("类文件继承（直接或间接）javax.servlet.http.HttpServlet");
-                }
-            }
-            factChain.add(fact);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new FactAnalyzerException(e.getMessage());
         }
+
+
     }
 
     @Override
@@ -123,6 +123,9 @@ public class HttpServletFactAnalyzer extends AbstractFactAnalyzer{
     @Override
     public String toString() {
         return getName() + "\n" + getFactDescription();
+    }
+
+    public static void main(String[] args) throws Exception {
     }
 }
 
