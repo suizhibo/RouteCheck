@@ -9,12 +9,13 @@ import java.util.*;
 @FactAnalyzerAnnotations(
         filterName = "UnionFactAnalyzer"
 )
-public class UnionFactAnalyzer extends AbstractFactAnalyzer{
+public class UnionFactAnalyzer extends AbstractFactAnalyzer {
 
     private final String NAME = "UnionFactAnalyzer";
 
     private final String TYPE = "Union";
     private final String DESCRIPTION = "";
+
     @Override
     public void prepare(Object object) {
 
@@ -23,18 +24,22 @@ public class UnionFactAnalyzer extends AbstractFactAnalyzer{
     @Override
     public void analysis(Object object, Collection<Fact> factChain) throws FactAnalyzerException {
         // TODO: sort factChain
-        try{
+        try {
             List<Fact> facts = new ArrayList<>();
             facts.addAll(factChain);
             Collections.sort(facts, new Comparator<Fact>() {
                 @Override
                 public int compare(Fact o1, Fact o2) {
-                    return o1.getClassName().compareTo(o2.getClassName());
+                    try {
+                        return o1.getClassName().compareTo(o2.getClassName());
+                    } catch (Exception e) {
+                        return -1;
+                    }
                 }
             });
             factChain.clear();
             factChain.addAll(facts);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
             throw new FactAnalyzerException(e.getMessage());
         }
@@ -42,16 +47,16 @@ public class UnionFactAnalyzer extends AbstractFactAnalyzer{
 
     @Override
     public String getName() {
-        return NAME;
+        return this.NAME;
     }
 
     @Override
     public String getType() {
-        return TYPE;
+        return this.TYPE;
     }
 
     @Override
     public String getFactDescription() {
-        return DESCRIPTION;
+        return this.DESCRIPTION;
     }
 }

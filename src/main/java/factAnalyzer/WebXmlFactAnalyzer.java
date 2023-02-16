@@ -30,6 +30,9 @@ public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
     private final String TYPE = "config";
     private final String DESCRIPTION = "";
 
+    static Map<String, Element> servlets = new HashMap<>();
+    static Map<String, Set<Element>> servletMappings = new HashMap<>();
+
     @Override
     public void prepare(Object object) {
         Config config = (Config) object;
@@ -53,8 +56,6 @@ public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
             Document document = saxBuilder.build(is);
             Element rootElement = document.getRootElement();
             List<Element> children = rootElement.getChildren();
-            Map<String, Element> servlets = new HashMap<>();
-            Map<String, Set<Element>> servletMappings = new HashMap<>();
             children.forEach(child ->{
                 if(child.getName().equals("servlet")){
                     String servletName = child.getChildText("servlet-name", child.getNamespace());
