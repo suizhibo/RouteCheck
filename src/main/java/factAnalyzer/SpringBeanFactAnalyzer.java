@@ -7,32 +7,29 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 import project.entry.Config;
-import utils.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-//https://www.cnblogs.com/lyh233/p/12047942.html
 @FactAnalyzerAnnotations(
-        filterName = "SpringMVCWebXmlFactAnalyzer"
+        filterName = "SpringBeanFactAnalyzer"
 )
-public class SpringMVCWebXmlFactAnalyzer extends SpringFactAnalyzer {
-    private final String NAME = "SpringMVCWebXmlFactAnalyzer";
+public class SpringBeanFactAnalyzer extends SpringFactAnalyzer{
+    private final String NAME = "SpringBeanFactAnalyzer";
 
     private final String TYPE = "config";
     private final String DESCRIPTION = "";
 
-    public void analysis(String dispatchXmlPath, Collection<Fact> factChain) {
+    public void analysis(String configPath, Collection<Fact> factChain) {
         /*
          * bean标签 https://blog.csdn.net/ZixiangLi/article/details/87937819
          * */
         try {
             SAXBuilder saxBuilder = new SAXBuilder();
-            InputStream is = new FileInputStream(new File(dispatchXmlPath));
+            InputStream is = new FileInputStream(new File(configPath));
             Document document = saxBuilder.build(is);
             Element rootElement = document.getRootElement();
             List<Element> children = rootElement.getChildren();
@@ -98,44 +95,9 @@ public class SpringMVCWebXmlFactAnalyzer extends SpringFactAnalyzer {
     @Override
     public void analysis(Object object, Collection<Fact> factChain) throws FactAnalyzerException {
         try {
-            String classPath = Utils.command.getClassPath();
-            String projectPath = Utils.command.getProjectPath();
-            Config config = (Config) object;
-            String filePath = config.getFilePath();
-            // TODO: 解析web.xml获取dispatcher-servlet.xml路径
-            SAXBuilder saxBuilder = new SAXBuilder();
-            InputStream is = new FileInputStream(new File(filePath));
-            Document document = saxBuilder.build(is);
-            Element rootElement = document.getRootElement();
-            List<Element> children = rootElement.getChildren();
-            children.forEach(child -> {
-                try {
-                    if (child.getName().equals("servlet") &&
-                            child.getChildText("servlet-class", child.getNamespace()).
-                                    equals("org.springframework.web.servlet.DispatcherServlet")) {
-                        String servletName = child.getChildText("servlet-name", child.getNamespace());
-                        String dispatcherServletFilePath = String.format("%s%sWEB-INF%sclasses%sdispatcher-%s.xml", projectPath, File.separator,
-                                File.separator, File.separator, servletName);
-                        Element initParam = child.getChild("init-param", child.getNamespace());
-                        if (initParam != null) {
-                            String paramValue = initParam.getChildText("param-value", initParam.getNamespace());
-                            if (paramValue != null) {
-                                if (paramValue.contains("classpath\\*:") || paramValue.contains("classpath:")) {
-                                    paramValue = paramValue.replace("classpath:", "").replace("classpath\\*", "");
-                                    dispatcherServletFilePath = classPath + File.separator + paramValue;
-                                } else {
-                                    paramValue = projectPath + File.separator + paramValue;
-                                    dispatcherServletFilePath = paramValue;
-                                }
-                                // TODO param-value包含多个值
-                            }
-                        }
-                        analysis(dispatcherServletFilePath, factChain);
-                    }
-                } catch (Exception e) {
-
-                }
-            });
+           Config config = (Config) object;
+           String configPath = config.getFilePath();
+           analysis(configPath, factChain);
         } catch (Exception e) {
             throw new FactAnalyzerException(e.getMessage());
         }
@@ -158,12 +120,9 @@ public class SpringMVCWebXmlFactAnalyzer extends SpringFactAnalyzer {
 
     @Override
     public void prepare(Object object) {
-        //TODO： 判断是否包含 web-app标签
+        // TODO:判断xml文件中是否包含：xmlns="http://www.springframework.org/schema/beans"
     }
 
     public static void main(String[] args) throws Exception {
-        SpringMVCWebXmlFactAnalyzer springMVCWebXmlFactAnalyzer = new SpringMVCWebXmlFactAnalyzer();
-        springMVCWebXmlFactAnalyzer.analysis((Object) null, null);
-        springMVCWebXmlFactAnalyzer.analysis("D:\\工作\\专项工具\\RouteCheck\\config\\springmvc.xml", new ArrayList<>());
-    }
+        }
 }

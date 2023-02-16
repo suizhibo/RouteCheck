@@ -17,7 +17,7 @@ import java.util.*;
 @FactAnalyzerAnnotations(
         filterName = "SpringBootAnnotationFactAnalyzer"
 )
-public class SpringBootAnnotationFactAnalyzer extends AbstractFactAnalyzer{
+public class SpringBootAnnotationFactAnalyzer extends SpringFactAnalyzer{
     private final String NAME = "SpringBootAnnotationFactAnalyzer";
 
     private final String TYPE = "class";

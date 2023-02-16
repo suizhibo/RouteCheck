@@ -12,13 +12,12 @@ import soot.tagkit.VisibilityAnnotationTag;
 import utils.Utils;
 
 import java.util.*;
-import java.util.regex.Pattern;
 
 //https://www.cnblogs.com/lyh233/p/12047942.html
 @FactAnalyzerAnnotations(
         filterName = "SpringMVCAnnotationFactAnalyzer"
 )
-public class SpringMVCAnnotationFactAnalyzer extends AbstractFactAnalyzer{
+public class SpringMVCAnnotationFactAnalyzer extends SpringFactAnalyzer{
     private final String NAME = "SpringMVCAnnotationFactAnalyzer";
 
     private final String TYPE = "class";
