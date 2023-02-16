@@ -14,9 +14,7 @@ import utils.Utils;
 import javax.naming.Name;
 import java.util.*;
 
-@FactAnalyzerAnnotations(
-        filterName = "JAXRSFactAnalyzer"
-)
+
 public class JAXRSFactAnalyzer extends AbstractFactAnalyzer {
 
     private final String NAME = "JAXRSFactAnalyzer";
