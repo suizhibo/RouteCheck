@@ -5,12 +5,13 @@
 1. 实现一个类，名称形式如下XXFactAnalyzer，该类需继承AbstractFactAnalyzer，并添加注解FactAnalyzerAnnotations；
 
 2. 为上述类添加私有属性NAME，TYPE（class, config, union）以及DESCRIPTION；
+3. 可以添加static 属性保存该FactAnalyzer分析的相关结果；
 
-3. 实现public void prepare(Object object) {}、public void analysis(Object object, Collection<Fact> factChain) throws FactAnalyzerException {}、public String getName() {}、public String getType() {}、public String getFactDescription() {}以及public String toString() {}方法。
+4. 实现public void prepare(Object object) {}、public void analysis(Object object, Collection<Fact> factChain) throws FactAnalyzerException {}、public String getName() {}、public String getType() {}、public String getFactDescription() {}以及public String toString() {}方法。
 
-4. prepare方法做一些前置条件的筛选，并根据筛选结果判断是否启用该FactAnalyzer（所有新增FactAnalyzer默认启用）；
+5. prepare方法做一些前置条件的筛选，并根据筛选结果判断是否启用该FactAnalyzer（所有新增FactAnalyzer默认启用）；
 
-5. analysis方法完成具体的事实分析。
+6. analysis方法完成具体的事实分析。
 
 ```java
 package factAnalyzer;
