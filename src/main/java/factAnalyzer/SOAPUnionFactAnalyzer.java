@@ -53,6 +53,7 @@ public class SOAPUnionFactAnalyzer extends UnionFactAnalyzer {
                                         fact.setClassName(className);
                                         fact.setClassNameMD5(Utils.getMD5Str(className));
                                         fact.setCredibility(2);
+                                        factChain.add(fact);
                                         fact.setDescription(String.format("从Web.xml中发现servlet-name:AxisServlet,url-pattern:%s，WSDD中发现service name:%s, className: %s",
                                                 urlPattern, serviceName, fact.getClassName()));
                                     }else if(paramName.equals("allowedMethods")){
@@ -62,7 +63,6 @@ public class SOAPUnionFactAnalyzer extends UnionFactAnalyzer {
                                         }
                                         fact.setMethod(allowedMethods);
                                     }
-                                    factChain.add(fact);
                                 }
                             });
                         } catch (Exception ex) {
