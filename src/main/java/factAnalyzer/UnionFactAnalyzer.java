@@ -33,13 +33,14 @@ public class UnionFactAnalyzer extends AbstractFactAnalyzer {
                     try {
                         return o1.getClassName().compareTo(o2.getClassName());
                     } catch (Exception e) {
-                        return -1;
+                        return 0;
                     }
                 }
             });
             factChain.clear();
             factChain.addAll(facts);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println(e);
             throw new FactAnalyzerException(e.getMessage());
         }

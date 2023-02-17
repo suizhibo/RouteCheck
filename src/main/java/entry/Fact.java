@@ -12,6 +12,16 @@ public class Fact{
     private String description;
     private int credibility;
 
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    private String method;
+
     public Fact(){
         this.routes = new ArrayList<>();
     }

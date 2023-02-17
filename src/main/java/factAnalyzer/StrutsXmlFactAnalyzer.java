@@ -50,6 +50,7 @@ public class StrutsXmlFactAnalyzer extends AbstractFactAnalyzer{
                             }
                             String method = action.getAttributeValue("method");
                             Fact fact = new Fact();
+                            fact.setMethod(method);
                             fact.setClassName(clazz);
                             fact.setClassNameMD5(Utils.getMD5Str(clazz));
                             fact.setRoute(route);

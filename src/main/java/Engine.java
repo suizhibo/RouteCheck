@@ -139,9 +139,13 @@ public class Engine {
                 }
 
             }
-            unionFactAnalyzer.analysis(null, factChain);
+            try{
+                unionFactAnalyzer.analysis(null, factChain);
+            }catch (Exception ex){
+                LOGGER.error(String.format("When execute %s occur error", unionFactAnalyzer.getName()));
+            }
         } catch (Exception e) {
-            throw new FactAnalyzerException(e.getMessage());
+            LOGGER.error(e.getMessage());
         }
     }
 

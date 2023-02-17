@@ -82,6 +82,7 @@ public class SpringMVCWebXmlFactAnalyzer extends SpringFactAnalyzer {
                             } else {
                                 fact.setCredibility(1);
                             }
+                            fact.setMethod("handleRequest");
                             fact.setRoute(name);
                             fact.setClassName(clazz);
                         }

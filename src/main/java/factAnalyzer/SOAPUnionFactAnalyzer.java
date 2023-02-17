@@ -46,13 +46,22 @@ public class SOAPUnionFactAnalyzer extends UnionFactAnalyzer {
                             fact.setRoute(route);
                             List<Element> params = service.getChildren();
                             params.forEach(param -> {
-                                if (param.getName().equals("parameter") && param.getAttributeValue("name").equals("className")) {
-                                    String className = param.getAttributeValue("value");
-                                    fact.setClassName(className);
-                                    fact.setClassNameMD5(Utils.getMD5Str(className));
-                                    fact.setCredibility(2);
-                                    fact.setDescription(String.format("从Web.xml中发现servlet-name:AxisServlet,url-pattern:%s，WSDL中发现service name:%s, className: %s",
-                                            urlPattern, serviceName, fact.getClassName()));
+                                if (param.getName().equals("parameter")) {
+                                    String paramName = param.getAttributeValue("name");
+                                    if(paramName.equals("className")){
+                                        String className = param.getAttributeValue("value");
+                                        fact.setClassName(className);
+                                        fact.setClassNameMD5(Utils.getMD5Str(className));
+                                        fact.setCredibility(2);
+                                        fact.setDescription(String.format("从Web.xml中发现servlet-name:AxisServlet,url-pattern:%s，WSDD中发现service name:%s, className: %s",
+                                                urlPattern, serviceName, fact.getClassName()));
+                                    }else if(paramName.equals("allowedMethods")){
+                                        String allowedMethods = param.getAttributeValue("value");
+                                        if(allowedMethods.equals("*")){
+                                            allowedMethods = "* (all methods)";
+                                        }
+                                        fact.setMethod(allowedMethods);
+                                    }
                                     factChain.add(fact);
                                 }
                             });
@@ -64,7 +73,6 @@ public class SOAPUnionFactAnalyzer extends UnionFactAnalyzer {
             });
             super.analysis(object, factChain);
         } catch (Exception e) {
-            e.printStackTrace();
             throw new FactAnalyzerException(e.getMessage());
         }
     }

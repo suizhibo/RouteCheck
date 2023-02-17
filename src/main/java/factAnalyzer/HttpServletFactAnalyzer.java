@@ -83,6 +83,7 @@ public class HttpServletFactAnalyzer extends AbstractFactAnalyzer{
                     fact.setDescription("类文件继承（直接或间接）javax.servlet.http.HttpServlet");
                 }
             }
+            fact.setMethod("do*");
             factChain.add(fact);
         }catch (Exception e){
             throw new FactAnalyzerException(e.getMessage());
