@@ -74,6 +74,7 @@ public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
                         fact.setRoute(sm.getChildText("url-pattern", sm.getNamespace()));
                         fact.setDescription(String.format("从文件%s中提取出servlet和servlet-mapping", config.getFilePath()));
                         fact.setCredibility(3);
+                        fact.setMethod("do*");
                         factChain.add(fact);
                     });
                 });
