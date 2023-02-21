@@ -69,18 +69,18 @@ public class Command {
     public void parse(String[] args) throws ParseException {
         CommandLineParser parser = new BasicParser();
         Options options = new Options();
-        options.addOption("h", "help", false, "Print this usage information");
-        options.addOption("pn", "project-name", true, "Project name");
-        options.addOption("pp", "project-path", true, "Project path");
-        options.addOption("cp", "class-path", true, "File path of class");
-        options.addOption("lp", "lib-path", true, "File path of library");
-        options.addOption("sp", "setting-path", true, "File path of basic setting");
-        options.addOption("o", "outPut", true, "Output directory");
+        options.addOption("h", "help", false, "打印命令行帮助信息");
+        options.addOption("pn", "project-name", true, "项目名称");
+        options.addOption("pp", "project-path", true, "项目路径");
+        options.addOption("cp", "class-path", true, "类文件地址");
+        options.addOption("lp", "lib-path", true, "库文件地址");
+        options.addOption("sp", "setting-path", true, "设置文件地址");
+        options.addOption("o", "outPut", true, "结果保存目录");
 
         CommandLine commandLine = parser.parse(options, args);
-
+        HelpFormatter helpFormatter = new HelpFormatter();
         if (commandLine.hasOption("h")) {
-            System.out.println("Help Message");
+            helpFormatter.printHelp("java RouteCheck.jar", options, true);
             System.exit(0);
         }
 
@@ -107,6 +107,5 @@ public class Command {
         if (commandLine.hasOption("o")) {
             this.setOutPut(commandLine.getOptionValue("o"));
         }
-
     }
 }
