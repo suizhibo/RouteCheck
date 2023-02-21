@@ -12,5 +12,6 @@ import java.util.Map;
 public class Settings {
     private Map<String, List<String>> factAnalyzers;
     private String outPutDirectory;
+    private String tempDirectory;
     private String reportType;
 }

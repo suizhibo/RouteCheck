@@ -16,6 +16,19 @@ public class Project {
     private String name;
     private Set<SootClass> classes;
 
+    public Map<SootClass, String> getClassesToPath() {
+        return classesToPath;
+    }
+
+    public void setClassesToPath(SootClass sootClass, String classPath) {
+        this.classesToPath.put(sootClass, classPath);
+    }
+    public void setClassesToPath(Map<SootClass, String> classesToPath) {
+        this.classesToPath = classesToPath;
+    }
+
+    private Map<SootClass, String> classesToPath = new HashMap<>();
+
     private Collection<Config> configs;
 
     public Map<String, Config> getConfigMap() {
