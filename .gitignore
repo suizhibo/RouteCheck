@@ -1,6 +1,6 @@
 .idea/
 config/
-lib/
+target/
+output/
 *.class
-*.jar
 
