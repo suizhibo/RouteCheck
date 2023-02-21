@@ -3,6 +3,7 @@ package utils;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
@@ -29,8 +30,8 @@ public class Utils {
     }
 
     public static void fileWriter(String filepath, String content) throws IOException {
-        try (FileWriter fileWriter = new FileWriter(filepath)) {
-            fileWriter.append(content);
+        try (PrintWriter writer = new PrintWriter(filepath, "UTF-8")) {
+            writer.println(content);
         }
     }
 
