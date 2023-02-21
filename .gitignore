@@ -3,5 +3,4 @@ config/
 target/
 output/
 *.class
-*.jar
 
