@@ -40,7 +40,7 @@ public class GuiceServletFactAnalyzer extends AbstractFactAnalyzer{
                          sootClass.getMethods()) {
                         if(sm.getName().equals("configureServlets")){
                             String classFilePath = getProject().getClassesToPath().get(sootClass);
-//                            DeCompilerUtil.deCompile(new String[]{"-dgs=true", classFilePath, tempDirectory});
+                            DeCompilerUtil.deCompile(new String[]{"-dgs=true", classFilePath, tempDirectory});
                             String newPath = classFilePath.substring(classFilePath.lastIndexOf(File.separator) + 1);
                             newPath = tempDirectory + File.separator + newPath;
                             newPath = newPath.replace(".class", ".java");

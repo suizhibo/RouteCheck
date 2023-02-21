@@ -86,10 +86,10 @@ public class BaseProjectAnalyzer {
             if(fileName.endsWith(".jar")) {
                 String filePath = file.getAbsolutePath();
                 Jar jar = new Jar(fileName, filePath);
+                String newFileName = fileName.split("-\\d+(.\\d+)*")[0];
                 project.addJar(jar);
-                project.setJarMap(fileName, jar);
+                project.setJarMap(newFileName, jar);
                 jarFilePaths.add(filePath);
-
             }
         }
         else if (file.isDirectory()) {
@@ -126,7 +126,8 @@ public class BaseProjectAnalyzer {
     }
 
     private void analysisService(){
-        project.setService("landray");
+        // TODO: 分析项目采用的那种架构
+        project.setService("default");
     }
     private void analysisClasses(){
         String classPath = command.getClassPath();
@@ -139,7 +140,6 @@ public class BaseProjectAnalyzer {
         String sootClassPath = String.join(File.pathSeparator, classPaths) + File.pathSeparator +
                 String.join(File.pathSeparator, libs);
         Scene.v().setSootClassPath(sootClassPath);
-        //whole program analysis
         Options.v().set_process_dir(classPaths);
         Options.v().set_whole_program(true);
         Options.v().set_app(true);
@@ -169,9 +169,7 @@ public class BaseProjectAnalyzer {
 
     private static void excludeJDKLibrary()
     {
-        //exclude jdk classes
         Options.v().set_exclude(excludeList());
-        //this option must be disabled for a sound call graph
         Options.v().set_no_bodies_for_excluded(true);
         Options.v().set_allow_phantom_refs(true);
     }

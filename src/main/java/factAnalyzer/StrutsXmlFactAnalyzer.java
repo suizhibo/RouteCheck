@@ -88,10 +88,24 @@ public class StrutsXmlFactAnalyzer extends AbstractFactAnalyzer{
 
     @Override
     public void prepare(Object object) {
-        try{
+        setEnable(false);
+        Config config = (Config) object;
+        String suffix = config.getSuffix();
+        if (suffix != null && suffix.equals("xml")) {
+            String filePath = config.getFilePath();
+            // TODO: 解析struts2.xml
+            try{
+                // TODO: 判断是否包含<struts>标签
+                SAXBuilder saxBuilder = new SAXBuilder();
+                InputStream is = new FileInputStream(new File(filePath));
+                Document document = saxBuilder.build(is);
+                Element rootElement = document.getRootElement();
+                if(rootElement.getName().equals("struts")){
+                    this.setEnable(true);
+                }
+            }catch (Exception ex){
 
-        }catch (Exception e){
-            this.setEnable(false);
+            }
         }
 
     }

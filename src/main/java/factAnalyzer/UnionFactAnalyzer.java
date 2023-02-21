@@ -41,7 +41,6 @@ public class UnionFactAnalyzer extends AbstractFactAnalyzer {
             factChain.addAll(facts);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(e);
             throw new FactAnalyzerException(e.getMessage());
         }
     }
