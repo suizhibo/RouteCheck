@@ -215,10 +215,10 @@ public class Engine {
                         "|  |\\  \\----.|  `--'  | |  `--'  |     |  |     |  |____ |  `----.|  |  |  | |  |____ |  `----.|  .  \\  \n" +
                         "| _| `._____| \\______/   \\______/      |__|     |_______| \\______||__|  |__| |_______| \\______||__|\\__\\ \n" +
                         "                                                                                                        ");
-        LOGGER.info("Analysis Started");
         final long analysisStart = System.currentTimeMillis();
         try {
             parseCommand(args);
+            LOGGER.info("Analysis Started");
             loadSettings();
             project = analysisProject();
             factAnalyzers = loadFactAnalyzer();
