@@ -71,9 +71,7 @@ public class BaseProjectAnalyzer {
             String fileName = file.getName();
             if(fileName.endsWith(".class")) {
                 String filePath = file.getAbsolutePath();
-                String path = filePath.substring(this.tempClassPathLength);
-                filePath = path.substring(1, path.lastIndexOf("."));
-                classFilePaths.add(filePath.replace("\\", "."));
+                classFilePaths.add(filePath);
             }
         }
         else if (file.isDirectory()) {
@@ -104,12 +102,17 @@ public class BaseProjectAnalyzer {
         Set<SootClass> sootClassSet = new HashSet<>();
         for (String classFilePath:
              classFilePaths) {
-            SootClass sootClass = Scene.v().loadClassAndSupport(classFilePath);
+            String path = classFilePath.substring(this.tempClassPathLength);
+            String newPath = path.substring(1, path.lastIndexOf("."));
+            newPath = newPath.replace("\\", ".");
+            SootClass sootClass = Scene.v().loadClassAndSupport(newPath);
             if(!sootClass.isJavaLibraryClass()){
                 sootClassSet.add(sootClass);
+                project.setClassesToPath(sootClass, classFilePath);
             }
         }
         project.setClasses(sootClassSet);
+
     }
 
     private void analysisConfig(){
@@ -141,6 +144,7 @@ public class BaseProjectAnalyzer {
         Options.v().set_whole_program(true);
         Options.v().set_app(true);
         scanClass(new File(classPath));
+        Scene.v().loadNecessaryClasses();
         buildSootClass();
     }
 

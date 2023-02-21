@@ -44,6 +44,7 @@ public class Engine {
 
     protected Settings loadSettings() throws LoadSettingsException {
         try {
+            LOGGER.info("Load Settings");
             String settingPath = command.getSettingPath();
             settings = (Settings) YamlUtil.readYaml(settingPath, Settings.class);
             if(command.getOutPut() != null && !command.getOutPut().equals("")){
@@ -58,6 +59,7 @@ public class Engine {
     protected Collection<FactAnalyzer> loadFactAnalyzer() throws LoadFactAnalyzerException {
         Collection<FactAnalyzer> factAnalyzerCollection = new ArrayList<>();
         try {
+            LOGGER.info("Load FactAnalyzers");
             List<String> analyzers = settings.getFactAnalyzers().get(project.getService());
             Map<String, Class> factAnalyzerNameToClass = scanFactAnalyzer();
             for (String analyzer :
@@ -80,6 +82,7 @@ public class Engine {
     }
 
     protected Project analysisProject() throws ProjectAnalyzerException {
+        LOGGER.info("Analysis Project");
         baseProjectAnalyzer.initialize(command, settings);
         baseProjectAnalyzer.analysis();
         Project myProject = baseProjectAnalyzer.getProject();
@@ -88,6 +91,7 @@ public class Engine {
     }
 
     protected void evaluateFact() throws FactAnalyzerException {
+        LOGGER.info("Evaluate Fact");
         Set<SootClass> sootClassSet = project.getClasses();
         Collection<Config> configs = project.getConfigs();
         Collection<FactAnalyzer> classFactAnalyzer = new ArrayList<>();
