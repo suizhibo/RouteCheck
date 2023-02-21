@@ -81,6 +81,7 @@ public class SpringBootAnnotationFactAnalyzer extends SpringFactAnalyzer{
                         });
                         fact.setMethod(sootMethod.getName());
                         fact.setCredibility(3);
+                        fact.setFactName(this.NAME);
                         factChain.add(fact);
                     }
                 }

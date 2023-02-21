@@ -27,4 +27,19 @@ public class ApacheCXFFactAnalyzer extends JAXRSFactAnalyzer{
             this.setEnable(false);
         }
     }
+
+    @Override
+    public String getName() {
+        return this.NAME;
+    }
+
+    @Override
+    public String getType() {
+        return this.TYPE;
+    }
+
+    @Override
+    public String getFactDescription() {
+        return this.DESCRIPTION;
+    }
 }

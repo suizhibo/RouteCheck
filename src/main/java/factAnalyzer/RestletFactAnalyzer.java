@@ -36,4 +36,19 @@ public class RestletFactAnalyzer extends JAXRSFactAnalyzer{
         super.analysis(object, factChain);
 
     }
+
+    @Override
+    public String getName() {
+        return this.NAME;
+    }
+
+    @Override
+    public String getType() {
+        return this.TYPE;
+    }
+
+    @Override
+    public String getFactDescription() {
+        return this.DESCRIPTION;
+    }
 }

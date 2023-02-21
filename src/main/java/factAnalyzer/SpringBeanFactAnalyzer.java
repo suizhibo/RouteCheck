@@ -52,6 +52,9 @@ public class SpringBeanFactAnalyzer extends SpringFactAnalyzer{
                                     }
                                     if(property.getAttributeValue("name").equals("service")){
                                         String route = property.getAttributeValue("ref");
+                                        if(route == null){
+                                            route = property.getText();
+                                        }
                                         fact.setCredibility(3);
                                         fact.setDescription(child.toString());
                                         fact.setRoute(route);
@@ -60,15 +63,20 @@ public class SpringBeanFactAnalyzer extends SpringFactAnalyzer{
                                         String clazzName = "";
                                         try{
                                             clazzName = property.getChildText("value", property.getNamespace());
+                                            if(clazzName == null){
+                                                clazzName = property.getAttributeValue("value");
+                                            }
                                         }catch (Exception ex){
-                                            clazzName = property.getAttributeValue("value");
                                         }
                                         fact.setCredibility(3);
                                         fact.setDescription(child.toString());
                                         fact.setClassName(clazzName);
+                                        fact.setFactName(this.NAME);
+                                        factChain.add(fact);
                                     }
                                 }
                             });
+                            return;
                         }
                         String oldClazz = clazz.substring(clazz.lastIndexOf(".") + 1);
                         String name = child.getAttributeValue("name");
@@ -82,8 +90,9 @@ public class SpringBeanFactAnalyzer extends SpringFactAnalyzer{
                             fact.setMethod("handleRequest");
                             fact.setRoute(name);
                             fact.setClassName(clazz);
+                            fact.setFactName(this.NAME);
+                            factChain.add(fact);
                         }
-                        factChain.add(fact);
                     }
                 } catch (Exception e) {
 

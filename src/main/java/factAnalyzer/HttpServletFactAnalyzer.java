@@ -66,6 +66,9 @@ public class HttpServletFactAnalyzer extends AbstractFactAnalyzer{
                                     fact.setClassPath(sootClass.getFilePath());
                                     fact.setDescription("类文件中使用注解：" + a.toString());
                                     fact.setCredibility(3);
+                                    fact.setMethod("do*");
+                                    fact.setFactName(this.NAME);
+                                    factChain.add(fact);
                                     hasWebServlet.set(true);
                                 }
                             }
@@ -81,10 +84,11 @@ public class HttpServletFactAnalyzer extends AbstractFactAnalyzer{
                     fact.setClassPath(sootClass.getFilePath());
                     fact.setCredibility(1);
                     fact.setDescription("类文件继承（直接或间接）javax.servlet.http.HttpServlet");
+                    fact.setMethod("do*");
+                    fact.setFactName(this.NAME);
+                    factChain.add(fact);
                 }
             }
-            fact.setMethod("do*");
-            factChain.add(fact);
         }catch (Exception e){
             throw new FactAnalyzerException(e.getMessage());
         }

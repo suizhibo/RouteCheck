@@ -9,6 +9,8 @@ public abstract class AbstractFactAnalyzer implements FactAnalyzer {
     private Project project;
     private Object object;
 
+
+
     @Override
     public boolean isEnable() {
         return enable;

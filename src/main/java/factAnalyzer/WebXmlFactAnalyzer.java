@@ -76,7 +76,7 @@ public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
             });
             if (servlets.size() > 0 && servletMappings.size() > 0) {
                 servlets.forEach((name, servlet) -> {
-                    Set<Element> servletMapping = servletMappings.get(name);
+                    Set<Element> servletMapping = servletMappings.getOrDefault(name, new HashSet<>());
                     servletMapping.forEach(sm ->{
                         Fact fact = new Fact();
                         String servletClass = servlet.getChildText("servlet-class", servlet.getNamespace());

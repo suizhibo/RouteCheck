@@ -82,6 +82,7 @@ public class JAXRSFactAnalyzer extends AbstractFactAnalyzer {
                                 });
                                 fact.setMethod(sootMethod.getName());
                                 fact.setCredibility(3);
+                                fact.setFactName(getName());
                                 factChain.add(fact);
                             }
                         }

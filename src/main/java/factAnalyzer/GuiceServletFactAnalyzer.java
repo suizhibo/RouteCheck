@@ -73,6 +73,7 @@ public class GuiceServletFactAnalyzer extends AbstractFactAnalyzer{
                                 fact.setCredibility(3);
                                 fact.setRoute(route);
                                 fact.setDescription(line);
+                                fact.setFactName(this.NAME);
                                 factChain.add(fact);
                                 }
                             }

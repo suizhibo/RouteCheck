@@ -57,6 +57,7 @@ public class StrutsXmlFactAnalyzer extends AbstractFactAnalyzer{
                             fact.setDescription(String.format("从%s中发现%s", config.getFilePath(),
                                     action.toString()));
                             fact.setCredibility(3);
+                            fact.setFactName(this.NAME);
                             factChain.add(fact);
                         }catch (Exception e){
 

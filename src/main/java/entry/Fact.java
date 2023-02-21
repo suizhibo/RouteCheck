@@ -12,6 +12,16 @@ public class Fact{
     private String description;
     private int credibility;
 
+    public String getFactName() {
+        return factName;
+    }
+
+    public void setFactName(String factName) {
+        this.factName = factName;
+    }
+
+    private String factName;
+
     public String getMethod() {
         return method;
     }

@@ -69,9 +69,12 @@ public class SpringMVCWebXmlFactAnalyzer extends SpringFactAnalyzer {
                                         fact.setCredibility(3);
                                         fact.setDescription(child.toString());
                                         fact.setClassName(clazzName);
+                                        fact.setFactName(this.NAME);
+                                        factChain.add(fact);
                                     }
                                 }
                             });
+                            return;
                         }
                         String oldClazz = clazz.substring(clazz.lastIndexOf(".") + 1);
                         String name = child.getAttributeValue("name");
@@ -85,8 +88,10 @@ public class SpringMVCWebXmlFactAnalyzer extends SpringFactAnalyzer {
                             fact.setMethod("handleRequest");
                             fact.setRoute(name);
                             fact.setClassName(clazz);
+                            fact.setFactName(this.NAME);
+                            factChain.add(fact);
                         }
-                        factChain.add(fact);
+
                     }
                 } catch (Exception e) {
 
