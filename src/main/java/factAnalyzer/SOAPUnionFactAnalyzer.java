@@ -6,10 +6,7 @@ import exceptions.FactAnalyzerException;
 import org.jdom.Element;
 import utils.Utils;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @FactAnalyzerAnnotations(
         name = "SOAPUnionFactAnalyzer"
@@ -28,7 +25,7 @@ public class SOAPUnionFactAnalyzer extends UnionFactAnalyzer {
     @Override
     public void analysis(Object object, Collection<Fact> factChain) throws FactAnalyzerException {
         try {
-            Set<Element> servletMappings = WebXmlFactAnalyzer.servletMappings.get("AxisServlet");
+            Set<Element> servletMappings = WebXmlFactAnalyzer.servletMappings.getOrDefault("AxisServlet", new HashSet<>());
 
             if (servletMappings.size() < 1) {
                 super.analysis(object, factChain);
@@ -73,6 +70,7 @@ public class SOAPUnionFactAnalyzer extends UnionFactAnalyzer {
             });
             super.analysis(object, factChain);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new FactAnalyzerException(e.getMessage());
         }
     }

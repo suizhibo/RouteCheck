@@ -148,6 +148,7 @@ public class Engine {
                 try {
                     ufa.analysis(null, factChain);
                 } catch (Exception ex) {
+                    ex.printStackTrace();
                     LOGGER.error(String.format("When execute %s occur error", ufa.getName()));
                 }
             }
