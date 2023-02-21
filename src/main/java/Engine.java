@@ -19,10 +19,13 @@ import utils.YamlUtil;
 import entry.Fact;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 public class Engine {
     private static final Logger LOGGER = LoggerFactory.getLogger(Engine.class);
@@ -59,7 +62,6 @@ public class Engine {
     protected Collection<FactAnalyzer> loadFactAnalyzer() throws LoadFactAnalyzerException {
         Collection<FactAnalyzer> factAnalyzerCollection = new ArrayList<>();
         try {
-            LOGGER.info("Load FactAnalyzers");
             List<String> analyzers = settings.getFactAnalyzers().get(project.getService());
             Map<String, Class> factAnalyzerNameToClass = scanFactAnalyzer();
             for (String analyzer :
@@ -75,6 +77,7 @@ public class Engine {
                     }
                 }
             }
+            LOGGER.info(String.format("Load FactAnalyzers(%s)", analyzers.size()));
         } catch (Exception e) {
             throw new LoadFactAnalyzerException(e.getMessage());
         }
@@ -182,27 +185,57 @@ public class Engine {
         }
     }
 
-
-    private void scanClass(URI uri, String packageName, Class<?> parentClass, Class<?> annotationClass, ArrayList<Class> destList) {
+    private void scanClass(URI uri, String packageName, Class<?> parentClass, Class<?> annotationClass, ArrayList<Class> destList) throws IOException, ClassNotFoundException {
         try {
-            File file = new File(uri);
-            File[] file2 = file.listFiles();
-            for (int i = 0; i < file2.length; i++) {
-                File objectClassFile = file2[i];
-                if (objectClassFile.getPath().endsWith(".class"))
+            String jarFileString;
+            if ((jarFileString = Utils.getJarFileByClass(Engine.class)) != null) {
+                scanClassByJar(new File(jarFileString), packageName, parentClass, annotationClass, destList);
+            } else {
+                File file = new File(uri);
+                File[] file2 = file.listFiles();
+                for (int i = 0; i < file2.length; i++) {
+                    File objectClassFile = file2[i];
+                    if (objectClassFile.getPath().endsWith(".class"))
+                        try {
+                            String objectClassName = String.format("%s.%s", new Object[]{packageName, objectClassFile.getName().substring(0, objectClassFile.getName().length() - ".class".length())});
+                            Class<?> objectClass = Class.forName(objectClassName, true, FACTANALYZER_CLASSLOADER);
+                            if (parentClass.isAssignableFrom(objectClass) && objectClass.isAnnotationPresent((Class) annotationClass)) {
+                                destList.add(objectClass);
+                            }
+                        } catch (Exception e) {
+                            LOGGER.debug(String.format("When scan class %s occur error: %", new Object[]{objectClassFile, e.getMessage()}));
+                        }
+                }
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    private void scanClassByJar(File srcJarFile, String packageName, Class<?> parentClass, Class<?> annotationClass, ArrayList<Class> destList) throws IOException, ClassNotFoundException {
+        try {
+            JarFile jarFile = new JarFile(srcJarFile);
+            Enumeration<JarEntry> jarFiles = jarFile.entries();
+            packageName = packageName.replace(".", "/");
+            while (jarFiles.hasMoreElements()) {
+                JarEntry jarEntry = (JarEntry) jarFiles.nextElement();
+                String name = jarEntry.getName();
+                if (name.startsWith(packageName) && name.endsWith(".class")) {
+                    name = name.replace("/", ".");
+                    name = name.substring(0, name.length() - 6);
+                    Class objectClass = Class.forName(name, true, FACTANALYZER_CLASSLOADER);
                     try {
-                        String objectClassName = String.format("%s.%s", new Object[]{packageName, objectClassFile.getName().substring(0, objectClassFile.getName().length() - ".class".length())});
-                        Class<?> objectClass = Class.forName(objectClassName, true, FACTANALYZER_CLASSLOADER);
-                        if (parentClass.isAssignableFrom(objectClass) && objectClass.isAnnotationPresent((Class) annotationClass)) {
+                        if (parentClass.isAssignableFrom(objectClass) && objectClass.isAnnotationPresent(annotationClass)) {
                             destList.add(objectClass);
                         }
                     } catch (Exception e) {
-                        LOGGER.debug(String.format("When scan class %s occur error: %", new Object[]{objectClassFile, e.getMessage()}));
+                        LOGGER.debug(String.format("When scan class %s occur error: %", new Object[]{objectClass, e.getMessage()}));
                     }
+                }
             }
-
-        } catch (Exception e) {
-            throw e;
+            jarFile.close();
+        } catch (Exception ex) {
+            throw ex;
         }
     }
 
@@ -225,6 +258,7 @@ public class Engine {
             evaluateFact();
             writeReport();
         } catch (Exception e) {
+            e.printStackTrace();
             LOGGER.error("Analysis occur error: " + e.getMessage());
         }
         LOGGER.info("\n----------------------------------------------------\nEND ANALYSIS\n----------------------------------------------------");

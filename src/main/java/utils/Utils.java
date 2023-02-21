@@ -2,6 +2,7 @@ package utils;
 
 import java.io.*;
 import java.math.BigInteger;
+import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
@@ -73,5 +74,21 @@ public class Utils {
         if (obj == null)
             return null;
         return new org.apache.commons.beanutils.BeanMap(obj);
+    }
+
+    public static String getJarFileByClass(Class cs){
+        String fileString = null;
+        if (cs != null) {
+            String tempString = cs.getProtectionDomain().getCodeSource().getLocation().getFile();
+            if(tempString.endsWith(".jar")){
+                try{
+                    fileString = URLDecoder.decode(tempString, "utf-8");
+                }catch (UnsupportedEncodingException exception){
+                    fileString = URLDecoder.decode(tempString);
+                }
+            }
+        }
+        return fileString;
+
     }
 }
