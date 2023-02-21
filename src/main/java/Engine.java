@@ -47,7 +47,7 @@ public class Engine {
             LOGGER.info("Load Settings");
             String settingPath = command.getSettingPath();
             settings = (Settings) YamlUtil.readYaml(settingPath, Settings.class);
-            if(command.getOutPut() != null && !command.getOutPut().equals("")){
+            if (command.getOutPut() != null && !command.getOutPut().equals("")) {
                 settings.setOutPutDirectory(command.getOutPut());
             }
             return settings;
@@ -96,26 +96,26 @@ public class Engine {
         Collection<Config> configs = project.getConfigs();
         Collection<FactAnalyzer> classFactAnalyzer = new ArrayList<>();
         Collection<FactAnalyzer> configFactAnalyzer = new ArrayList<>();
-        FactAnalyzer unionFactAnalyzer = null;
+        Collection<FactAnalyzer> unionFactAnalyzer = new ArrayList<>();
         try {
             for (FactAnalyzer factAnalyzer :
                     factAnalyzers) {
-                if(factAnalyzer.getType().toLowerCase(Locale.ROOT).equals("class")){
+                if (factAnalyzer.getType().toLowerCase(Locale.ROOT).equals("class")) {
                     classFactAnalyzer.add(factAnalyzer);
                 } else if (factAnalyzer.getType().toLowerCase(Locale.ROOT).equals("config")) {
                     configFactAnalyzer.add(factAnalyzer);
                 } else if (factAnalyzer.getType().toLowerCase(Locale.ROOT).equals("union")) {
-                    unionFactAnalyzer = factAnalyzer;
+                    unionFactAnalyzer.add(factAnalyzer);
                 }
             }
 
-            for (Config config:
-                 configs) {
-                for (FactAnalyzer fa:
-                     configFactAnalyzer) {
+            for (Config config :
+                    configs) {
+                for (FactAnalyzer fa :
+                        configFactAnalyzer) {
                     try {
                         fa.prepare(config);
-                        if(fa.isEnable()){
+                        if (fa.isEnable()) {
                             fa.analysis(config, factChain);
                             LOGGER.info(config.getFileName() + ": " + fa.getName() + " Done");
                         }
@@ -126,13 +126,13 @@ public class Engine {
                 }
             }
 
-            for (SootClass sootClass:
+            for (SootClass sootClass :
                     sootClassSet) {
-                for (FactAnalyzer fa:
+                for (FactAnalyzer fa :
                         classFactAnalyzer) {
                     try {
                         fa.prepare(sootClass);
-                        if(fa.isEnable()){
+                        if (fa.isEnable()) {
                             fa.analysis(sootClass, factChain);
                             LOGGER.info(sootClass.getName() + ": " + fa.getName() + " Done");
                         }
@@ -143,11 +143,15 @@ public class Engine {
                 }
 
             }
-            try{
-                unionFactAnalyzer.analysis(null, factChain);
-            }catch (Exception ex){
-                LOGGER.error(String.format("When execute %s occur error", unionFactAnalyzer.getName()));
+            for (FactAnalyzer ufa :
+                    unionFactAnalyzer) {
+                try {
+                    ufa.analysis(null, factChain);
+                } catch (Exception ex) {
+                    LOGGER.error(String.format("When execute %s occur error", ufa.getName()));
+                }
             }
+
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
@@ -204,12 +208,12 @@ public class Engine {
     protected void run(String[] args) {
         System.out.println(
                 ".______        ______    __    __  .___________. _______   ______  __    __   _______   ______  __  ___ \n" +
-                "|   _  \\      /  __  \\  |  |  |  | |           ||   ____| /      ||  |  |  | |   ____| /      ||  |/  / \n" +
-                "|  |_)  |    |  |  |  | |  |  |  | `---|  |----`|  |__   |  ,----'|  |__|  | |  |__   |  ,----'|  '  /  \n" +
-                "|      /     |  |  |  | |  |  |  |     |  |     |   __|  |  |     |   __   | |   __|  |  |     |    <   \n" +
-                "|  |\\  \\----.|  `--'  | |  `--'  |     |  |     |  |____ |  `----.|  |  |  | |  |____ |  `----.|  .  \\  \n" +
-                "| _| `._____| \\______/   \\______/      |__|     |_______| \\______||__|  |__| |_______| \\______||__|\\__\\ \n" +
-                "                                                                                                        ");
+                        "|   _  \\      /  __  \\  |  |  |  | |           ||   ____| /      ||  |  |  | |   ____| /      ||  |/  / \n" +
+                        "|  |_)  |    |  |  |  | |  |  |  | `---|  |----`|  |__   |  ,----'|  |__|  | |  |__   |  ,----'|  '  /  \n" +
+                        "|      /     |  |  |  | |  |  |  |     |  |     |   __|  |  |     |   __   | |   __|  |  |     |    <   \n" +
+                        "|  |\\  \\----.|  `--'  | |  `--'  |     |  |     |  |____ |  `----.|  |  |  | |  |____ |  `----.|  .  \\  \n" +
+                        "| _| `._____| \\______/   \\______/      |__|     |_______| \\______||__|  |__| |_______| \\______||__|\\__\\ \n" +
+                        "                                                                                                        ");
         LOGGER.info("Analysis Started");
         final long analysisStart = System.currentTimeMillis();
         try {

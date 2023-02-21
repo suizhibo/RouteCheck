@@ -31,14 +31,25 @@ public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
 
     @Override
     public void prepare(Object object) {
+        setEnable(false);
         Config config = (Config) object;
         String suffix = config.getSuffix();
         if (suffix != null && suffix.equals("xml")) {
-            setEnable(true);
-        } else {
-            setEnable(false);
+            String filePath = config.getFilePath();
+            // TODO: 解析web.xml
+            try{
+                // TODO: 判断是否包含<web-app>标签
+                SAXBuilder saxBuilder = new SAXBuilder();
+                InputStream is = new FileInputStream(new File(filePath));
+                Document document = saxBuilder.build(is);
+                Element rootElement = document.getRootElement();
+                if(rootElement.getName().equals("web-app")){
+                    this.setEnable(true);
+                }
+            }catch (Exception ex){
+
+            }
         }
-        // TODO: 判断是否包含<web-app>标签
     }
 
     @Override
@@ -107,5 +118,10 @@ public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
     }
 
     public static void main(String[] args) throws Exception {
+        // TODO: 解析web.xml
+        SAXBuilder saxBuilder = new SAXBuilder(false);
+        InputStream is = new FileInputStream(new File("C:\\Users\\ss\\Desktop\\test\\web.xml"));
+        Document document = saxBuilder.build(is);
+        Element rootElement = document.getRootElement();
     }
 }

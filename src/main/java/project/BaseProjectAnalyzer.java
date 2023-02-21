@@ -126,7 +126,7 @@ public class BaseProjectAnalyzer {
     }
 
     private void analysisService(){
-        project.setService("landray");
+        project.setService("default");
     }
     private void analysisClasses(){
         String classPath = command.getClassPath();

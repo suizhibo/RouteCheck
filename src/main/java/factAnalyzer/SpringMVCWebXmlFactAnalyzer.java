@@ -159,7 +159,25 @@ public class SpringMVCWebXmlFactAnalyzer extends SpringFactAnalyzer {
 
     @Override
     public void prepare(Object object) {
-        //TODO： 判断是否包含 web-app标签
+        setEnable(false);
+        Config config = (Config) object;
+        String suffix = config.getSuffix();
+        if (suffix != null && suffix.equals("xml")) {
+            String filePath = config.getFilePath();
+            // TODO: 解析web.xml
+            try{
+                // TODO: 判断是否包含<web-app>标签
+                SAXBuilder saxBuilder = new SAXBuilder();
+                InputStream is = new FileInputStream(new File(filePath));
+                Document document = saxBuilder.build(is);
+                Element rootElement = document.getRootElement();
+                if(rootElement.getName().equals("web-app")){
+                    this.setEnable(true);
+                }
+            }catch (Exception ex){
+
+            }
+        }
     }
 
     public static void main(String[] args) throws Exception {
