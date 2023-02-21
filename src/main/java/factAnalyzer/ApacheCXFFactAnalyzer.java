@@ -21,10 +21,10 @@ public class ApacheCXFFactAnalyzer extends JAXRSFactAnalyzer{
         Map<String, Jar> jarMap = this.getProject().getJarMap();
         SootClass sootClass = (SootClass) object;
         VisibilityAnnotationTag visibilityAnnotationTag = (VisibilityAnnotationTag) sootClass.getTag("VisibilityAnnotationTag");
-//        if(jarMap.containsKey("cfx-rt") && visibilityAnnotationTag != null){
-//            this.setEnable(true);
-//        }else{
-//            this.setEnable(false);
-//        }
+        if(jarMap.containsKey("cfx-rt") && visibilityAnnotationTag != null){
+            this.setEnable(true);
+        }else{
+            this.setEnable(false);
+        }
     }
 }

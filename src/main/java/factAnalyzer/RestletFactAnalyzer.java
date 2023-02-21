@@ -24,11 +24,11 @@ public class RestletFactAnalyzer extends JAXRSFactAnalyzer{
         Map<String, Jar> jarMap = this.getProject().getJarMap();
         SootClass sootClass = (SootClass) object;
         VisibilityAnnotationTag visibilityAnnotationTag = (VisibilityAnnotationTag) sootClass.getTag("VisibilityAnnotationTag");
-//        if(jarMap.containsKey("org.restlet") && visibilityAnnotationTag != null){
-//            this.setEnable(true);
-//        }else{
-//            this.setEnable(false);
-//        }
+        if(jarMap.containsKey("org.restlet") && visibilityAnnotationTag != null){
+            this.setEnable(true);
+        }else{
+            this.setEnable(false);
+        }
     }
 
     @Override

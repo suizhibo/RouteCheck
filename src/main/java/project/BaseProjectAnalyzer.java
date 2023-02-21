@@ -87,7 +87,8 @@ public class BaseProjectAnalyzer {
                 String filePath = file.getAbsolutePath();
                 Jar jar = new Jar(fileName, filePath);
                 project.addJar(jar);
-                project.setJarMap(fileName, jar);
+                String newFileName = fileName.split("-\\d+(.\\d+)*")[0];
+                project.setJarMap(newFileName, jar);
                 jarFilePaths.add(filePath);
 
             }
