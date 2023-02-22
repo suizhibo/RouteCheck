@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 @FactAnalyzerAnnotations(
         name = "GuiceServletFactAnalyzer"
 )
-public class GuiceServletFactAnalyzer extends AbstractFactAnalyzer{
+public class GuiceServletFactAnalyzer extends AbstractFactAnalyzer {
 
     public GuiceServletFactAnalyzer() {
         super(GuiceServletFactAnalyzer.class.getName(), "class", "");
@@ -28,15 +28,15 @@ public class GuiceServletFactAnalyzer extends AbstractFactAnalyzer{
     @Override
     public void analysis(Object object, Collection<Fact> factChain) throws FactAnalyzerException {
         // https://blog.csdn.net/a304096740/article/details/101883424
-        try{
+        try {
             SootClass sootClass = (SootClass) object;
             String tempDirectory = getSettings().getTempDirectory();
             // 当前版本只考虑直接继承关系
-            if(sootClass.getSuperclass().getName().equals("com.google.inject.servlet.ServletModule")){
-                try{
-                    for (SootMethod sm:
-                         sootClass.getMethods()) {
-                        if(sm.getName().equals("configureServlets")){
+            if (sootClass.getSuperclass().getName().equals("com.google.inject.servlet.ServletModule")) {
+                try {
+                    for (SootMethod sm :
+                            sootClass.getMethods()) {
+                        if (sm.getName().equals("configureServlets")) {
                             String classFilePath = getProject().getClassesToPath().get(sootClass);
                             DeCompilerUtil.deCompile(new String[]{"-dgs=true", classFilePath, tempDirectory});
                             String newPath = classFilePath.substring(classFilePath.lastIndexOf(File.separator) + 1);
@@ -46,44 +46,44 @@ public class GuiceServletFactAnalyzer extends AbstractFactAnalyzer{
                             String pattern = ".*serve\\(([a-z A-Z\\[\\]{}\"\"/,\\s0-9\\*]*)\\)\\.with.*\\(([/A-Za-z0-9]+\\.class).*";
                             String[] lines = javaContent.split(";");
                             String patternRegex = ".*serveRegex\\((.*?)\\.with.*\\(([/A-Za-z0-9]+\\.class).*";
-                            Pattern r1 = Pattern.compile(pattern);
-                            Pattern r = Pattern.compile(patternRegex);
-                            for (String line:
+                            Pattern serve = Pattern.compile(pattern);
+                            Pattern serveRegex = Pattern.compile(patternRegex);
+                            for (String line :
                                     lines) {
                                 Fact fact = new Fact();
                                 String route = "";
                                 String className = "";
-                                Matcher m = r.matcher(line);
-                                if(m.find()){
-                                     route = m.group(1);
-                                     className = m.group(2);
+                                Matcher matcherServe = serve.matcher(line);
+                                if (matcherServe.find()) {
+                                    route = matcherServe.group(1);
+                                    className = matcherServe.group(2);
                                 }
 
-                                Matcher m1 = r1.matcher(line);
-                                if(m1.find()){
-                                     route = m1.group(1);
-                                     className = m1.group(2);
+                                Matcher matcherServeRegex = serveRegex.matcher(line);
+                                if (matcherServeRegex.find()) {
+                                    route = matcherServeRegex.group(1);
+                                    className = matcherServeRegex.group(2);
                                 }
-                                if(!route.equals("") && !className.equals("")){
-                                fact.setMethod("do*");
-                                fact.setClassName(className);
-                                fact.setClassNameMD5(Utils.getMD5Str(className));
-                                fact.setCredibility(3);
-                                fact.setRoute(route);
-                                fact.setDescription(line);
-                                fact.setFactName(getName());
-                                factChain.add(fact);
+                                if (!route.equals("") && !className.equals("")) {
+                                    fact.setMethod("do*");
+                                    fact.setClassName(className);
+                                    fact.setClassNameMD5(Utils.getMD5Str(className));
+                                    fact.setCredibility(3);
+                                    fact.setRoute(route);
+                                    fact.setDescription(line);
+                                    fact.setFactName(getName());
+                                    factChain.add(fact);
                                 }
                             }
 
                         }
                     }
 
-                }catch (RuntimeException runtimeException){
+                } catch (RuntimeException runtimeException) {
 
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new FactAnalyzerException(e.getMessage());
         }
     }
@@ -93,9 +93,9 @@ public class GuiceServletFactAnalyzer extends AbstractFactAnalyzer{
         Map<String, Jar> jarMap = this.getProject().getJarMap();
         SootClass sootClass = (SootClass) object;
         VisibilityAnnotationTag visibilityAnnotationTag = (VisibilityAnnotationTag) sootClass.getTag("VisibilityAnnotationTag");
-        if(jarMap.containsKey("guice-servlet") && visibilityAnnotationTag != null){
+        if (jarMap.containsKey("guice-servlet") && visibilityAnnotationTag != null) {
             this.setEnable(true);
-        }else{
+        } else {
             this.setEnable(false);
         }
     }
@@ -145,5 +145,5 @@ public class GuiceServletFactAnalyzer extends AbstractFactAnalyzer{
 //        }
 
         DeCompilerUtil.deCompile(new String[]{"-dgs=true", "D:\\工作\\专项工具\\RouteCheck\\output\\UserModule$1.java", "D:\\工作\\专项工具\\RouteCheck\\config"});
-        }
+    }
 }

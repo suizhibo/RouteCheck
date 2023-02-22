@@ -80,7 +80,7 @@ public class Command {
         CommandLine commandLine = parser.parse(options, args);
         HelpFormatter helpFormatter = new HelpFormatter();
         if (commandLine.hasOption("h")) {
-            helpFormatter.printHelp("java RouteCheck.jar", options, true);
+            helpFormatter.printHelp("java -jar RouteCheck.jar", options, true);
             System.exit(0);
         }
 
