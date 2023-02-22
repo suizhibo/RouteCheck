@@ -7,24 +7,17 @@ import java.util.Collection;
 
 public class SpringFactAnalyzer extends AbstractFactAnalyzer{
 
+    public SpringFactAnalyzer(String name, String type, String description) {
+        super(name, type, description);
+    }
+
+    public SpringFactAnalyzer() {
+        super(SpringFactAnalyzer.class.getName(), "", "");
+    }
+
     @Override
     public void analysis(Object object, Collection<Fact> factChain) throws FactAnalyzerException {
 
-    }
-
-    @Override
-    public String getName() {
-        return "SpringFactAnalyzer";
-    }
-
-    @Override
-    public String getType() {
-        return "";
-    }
-
-    @Override
-    public String getFactDescription() {
-        return "";
     }
 
     @Override

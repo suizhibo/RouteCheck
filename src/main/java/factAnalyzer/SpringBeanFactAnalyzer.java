@@ -19,6 +19,10 @@ import java.util.List;
 )
 public class SpringBeanFactAnalyzer extends SpringFactAnalyzer{
 
+    public SpringBeanFactAnalyzer(){
+        super(SpringBeanFactAnalyzer.class.getName(), "class", "");
+    }
+
     public void analysis(String configPath, Collection<Fact> factChain) {
         /*
          * bean标签 https://blog.csdn.net/ZixiangLi/article/details/87937819
@@ -107,21 +111,6 @@ public class SpringBeanFactAnalyzer extends SpringFactAnalyzer{
         } catch (Exception e) {
             throw new FactAnalyzerException(e.getMessage());
         }
-    }
-
-    @Override
-    public String getName() {
-        return "SpringBeanFactAnalyzer";
-    }
-
-    @Override
-    public String getType() {
-        return "config";
-    }
-
-    @Override
-    public String getFactDescription() {
-        return "";
     }
 
     @Override

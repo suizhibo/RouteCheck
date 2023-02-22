@@ -4,7 +4,7 @@
 
 1. 实现一个类，名称形式如下XXFactAnalyzer，该类需继承AbstractFactAnalyzer，并添加注解FactAnalyzerAnnotations；
 
-2. 为上述类添加私有属性NAME，TYPE（class, config, union）以及DESCRIPTION；
+2. 为上述类无参构造函数 ；
 3. 可以添加static 属性保存该FactAnalyzer分析的相关结果；
 
 4. 实现public void prepare(Object object) {}、public void analysis(Object object, Collection<Fact> factChain) throws FactAnalyzerException {}、public String getName() {}、public String getType() {}、public String getFactDescription() {}以及public String toString() {}方法。
@@ -38,23 +38,35 @@ import java.util.*;
 https://docs.oracle.com/cd/E13222_01/wls/docs81/webapp/web_xml.html
 */
 public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
-    private final String NAME = "WebXmlFactAnalyzer";
-    private final String TYPE = "config";
-    private final String DESCRIPTION = "";
 
     static Map<String, Element> servlets = new HashMap<>();
     static Map<String, Set<Element>> servletMappings = new HashMap<>();
 
+    public WebXmlFactAnalyzer() {
+        super(WebXmlFactAnalyzer.class.getName(), "config", "");
+    }
+
     @Override
     public void prepare(Object object) {
+        setEnable(false);
         Config config = (Config) object;
         String suffix = config.getSuffix();
         if (suffix != null && suffix.equals("xml")) {
-            setEnable(true);
-        } else {
-            setEnable(false);
+            String filePath = config.getFilePath();
+            // TODO: 解析web.xml
+            try{
+                // TODO: 判断是否包含<web-app>标签
+                SAXBuilder saxBuilder = new SAXBuilder();
+                InputStream is = new FileInputStream(new File(filePath));
+                Document document = saxBuilder.build(is);
+                Element rootElement = document.getRootElement();
+                if(rootElement.getName().equals("web-app")){
+                    this.setEnable(true);
+                }
+            }catch (Exception ex){
+
+            }
         }
-        // TODO: 判断是否包含<web-app>标签
     }
 
     @Override
@@ -68,11 +80,11 @@ public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
             Document document = saxBuilder.build(is);
             Element rootElement = document.getRootElement();
             List<Element> children = rootElement.getChildren();
-            children.forEach(child -> {
-                if (child.getName().equals("servlet")) {
+            children.forEach(child ->{
+                if(child.getName().equals("servlet")){
                     String servletName = child.getChildText("servlet-name", child.getNamespace());
                     servlets.put(servletName, child);
-                } else if (child.getName().equals("servlet-mapping")) {
+                }else if(child.getName().equals("servlet-mapping")){
                     String servletName = child.getChildText("servlet-name", child.getNamespace());
                     Set<Element> values = servletMappings.getOrDefault(servletName, new HashSet<Element>());
                     values.add(child);
@@ -81,8 +93,8 @@ public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
             });
             if (servlets.size() > 0 && servletMappings.size() > 0) {
                 servlets.forEach((name, servlet) -> {
-                    Set<Element> servletMapping = servletMappings.get(name);
-                    servletMapping.forEach(sm -> {
+                    Set<Element> servletMapping = servletMappings.getOrDefault(name, new HashSet<>());
+                    servletMapping.forEach(sm ->{
                         Fact fact = new Fact();
                         String servletClass = servlet.getChildText("servlet-class", servlet.getNamespace());
                         fact.setClassNameMD5(Utils.getMD5Str(servletClass));
@@ -90,6 +102,8 @@ public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
                         fact.setRoute(sm.getChildText("url-pattern", sm.getNamespace()));
                         fact.setDescription(String.format("从文件%s中提取出servlet和servlet-mapping", config.getFilePath()));
                         fact.setCredibility(3);
+                        fact.setMethod("do*");
+                        fact.setFactName(getName());
                         factChain.add(fact);
                     });
                 });
@@ -101,28 +115,14 @@ public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
 
     }
 
-    @Override
-    public String getName() {
-        return NAME;
-    }
-
-    @Override
-    public String getType() {
-        return TYPE;
-    }
-
-    @Override
-    public String getFactDescription() {
-        return DESCRIPTION;
-    }
-
-    @Override
-    public String toString() {
-        return getName() + "\n" + getFactDescription();
-    }
-
     public static void main(String[] args) throws Exception {
+        // TODO: 解析web.xml
+        SAXBuilder saxBuilder = new SAXBuilder(false);
+        InputStream is = new FileInputStream(new File("C:\\Users\\ss\\Desktop\\test\\web.xml"));
+        Document document = saxBuilder.build(is);
+        Element rootElement = document.getRootElement();
     }
 }
+
 
 ```

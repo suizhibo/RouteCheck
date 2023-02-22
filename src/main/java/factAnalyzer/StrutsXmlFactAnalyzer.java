@@ -20,6 +20,11 @@ import java.util.*;
 public class StrutsXmlFactAnalyzer extends AbstractFactAnalyzer{
 
     static Map<String, Element> actionMap = new HashMap<>();
+
+    public StrutsXmlFactAnalyzer() {
+        super(StrutsXmlFactAnalyzer.class.getName(), "config", "");
+    }
+
     @Override
     public void analysis(Object object, Collection<Fact> factChain) throws FactAnalyzerException {
         try {
@@ -66,21 +71,6 @@ public class StrutsXmlFactAnalyzer extends AbstractFactAnalyzer{
             throw new FactAnalyzerException(e.getMessage());
         }
 
-    }
-
-    @Override
-    public String getName() {
-        return "StrutsXmlFactAnalyzer";
-    }
-
-    @Override
-    public String getType() {
-        return "config";
-    }
-
-    @Override
-    public String getFactDescription() {
-        return "";
     }
 
     @Override

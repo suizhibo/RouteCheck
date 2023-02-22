@@ -15,6 +15,9 @@ import java.util.Map;
 )
 public class RestletFactAnalyzer extends JAXRSFactAnalyzer{
 
+    public RestletFactAnalyzer(){
+        super(RestletFactAnalyzer.class.getName(), "class", "");
+    }
     @Override
     public void prepare(Object object) {
         Map<String, Jar> jarMap = this.getProject().getJarMap();
@@ -31,20 +34,5 @@ public class RestletFactAnalyzer extends JAXRSFactAnalyzer{
     public void analysis(Object object, Collection<Fact> factChain) throws FactAnalyzerException {
         super.analysis(object, factChain);
 
-    }
-
-    @Override
-    public String getName() {
-        return "RestletFactAnalyzer";
-    }
-
-    @Override
-    public String getType() {
-        return "class";
-    }
-
-    @Override
-    public String getFactDescription() {
-        return "";
     }
 }

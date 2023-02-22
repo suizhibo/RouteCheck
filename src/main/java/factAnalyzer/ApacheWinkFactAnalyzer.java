@@ -12,6 +12,9 @@ import java.util.Map;
 )
 public class ApacheWinkFactAnalyzer extends JAXRSFactAnalyzer{
 
+    public ApacheWinkFactAnalyzer(){
+        super(ApacheWinkFactAnalyzer.class.getName(), "class", "");
+    }
     @Override
     public void prepare(Object object) {
         Map<String, Jar> jarMap = this.getProject().getJarMap();
@@ -22,20 +25,5 @@ public class ApacheWinkFactAnalyzer extends JAXRSFactAnalyzer{
         }else{
             this.setEnable(false);
         }
-    }
-
-    @Override
-    public String getName() {
-        return "ApacheWinkFactAnalyzer";
-    }
-
-    @Override
-    public String getType() {
-        return "class";
-    }
-
-    @Override
-    public String getFactDescription() {
-        return "";
     }
 }

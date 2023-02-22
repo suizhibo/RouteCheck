@@ -12,6 +12,9 @@ import java.util.Map;
 )
 public class JerseyFactAnalyzer extends JAXRSFactAnalyzer{
 
+    public JerseyFactAnalyzer(){
+        super(JerseyFactAnalyzer.class.getName(), "class", "");
+    }
     @Override
     public void prepare(Object object) {
         Map<String, Jar> jarMap = this.getProject().getJarMap();
@@ -22,20 +25,5 @@ public class JerseyFactAnalyzer extends JAXRSFactAnalyzer{
         }else{
             this.setEnable(false);
         }
-    }
-
-    @Override
-    public String getName() {
-        return "JerseyFactAnalyzer";
-    }
-
-    @Override
-    public String getType() {
-        return "class";
-    }
-
-    @Override
-    public String getFactDescription() {
-        return "";
     }
 }

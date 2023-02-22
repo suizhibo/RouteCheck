@@ -8,24 +8,17 @@ import java.util.Collection;
 
 public class SOAPFactAnalyzer extends AbstractFactAnalyzer {
 
+    public SOAPFactAnalyzer(String name, String type, String description) {
+        super(name, type, description);
+    }
+
+    public SOAPFactAnalyzer() {
+        super(SOAPFactAnalyzer.class.getName(), "class", "");
+    }
+
     @Override
     public void analysis(Object object, Collection<Fact> factChain) throws FactAnalyzerException {
 
-    }
-
-    @Override
-    public String getName() {
-        return "SOAPFactAnalyzer";
-    }
-
-    @Override
-    public String getType() {
-        return "config";
-    }
-
-    @Override
-    public String getFactDescription() {
-        return "";
     }
 
     @Override
