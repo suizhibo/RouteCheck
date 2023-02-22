@@ -108,7 +108,6 @@ public class SpringBeanFactAnalyzer extends SpringFactAnalyzer{
            Config config = (Config) object;
            String configPath = config.getFilePath();
            analysis(configPath, factChain);
-
         } catch (Exception e) {
             throw new FactAnalyzerException(e.getMessage());
         }
