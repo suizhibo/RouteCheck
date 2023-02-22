@@ -137,7 +137,7 @@ public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
 |  |\  \----.|  `--'  | |  `--'  |     |  |     |  |____ |  `----.|  |  |  | |  |____ |  `----.|  .  \  
 | _| `._____| \______/   \______/      |__|     |_______| \______||__|  |__| |_______| \______||__|\__\ 
                                                                                                         
-usage: java RouteCheck.jar [-cp <arg>] [-h] [-lp <arg>] [-o <arg>] [-pn
+usage: java -jar RouteCheck.jar [-cp <arg>] [-h] [-lp <arg>] [-o <arg>] [-pn
        <arg>] [-pp <arg>] [-sp <arg>]
  -cp,--class-path <arg>     类文件地址
  -h,--help                  打印命令行帮助信息
