@@ -20,7 +20,7 @@ import java.util.List;
 public class SpringBeanFactAnalyzer extends SpringFactAnalyzer{
 
     public SpringBeanFactAnalyzer(){
-        super(SpringBeanFactAnalyzer.class.getName(), "class", "");
+        super(SpringBeanFactAnalyzer.class.getName(), "config", "");
     }
 
     public void analysis(String configPath, Collection<Fact> factChain) {
@@ -46,7 +46,7 @@ public class SpringBeanFactAnalyzer extends SpringFactAnalyzer{
                                 if(property.getName().equals("property")){
                                     if(property.getAttributeValue("name").equals("serviceName")){
                                         String route = property.getChildText("value", property.getNamespace());
-                                        fact.setCredibility(3);
+                                        fact.setCredibility(2);
                                         fact.setDescription(child.toString());
                                         fact.setRoute(route);
                                     }
@@ -55,7 +55,7 @@ public class SpringBeanFactAnalyzer extends SpringFactAnalyzer{
                                         if(route == null){
                                             route = property.getText();
                                         }
-                                        fact.setCredibility(3);
+                                        fact.setCredibility(2);
                                         fact.setDescription(child.toString());
                                         fact.setRoute(route);
                                     }
@@ -68,7 +68,7 @@ public class SpringBeanFactAnalyzer extends SpringFactAnalyzer{
                                             }
                                         }catch (Exception ex){
                                         }
-                                        fact.setCredibility(3);
+                                        fact.setCredibility(2);
                                         fact.setDescription(child.toString());
                                         fact.setClassName(clazzName);
                                         fact.setFactName(getName());
@@ -108,6 +108,7 @@ public class SpringBeanFactAnalyzer extends SpringFactAnalyzer{
            Config config = (Config) object;
            String configPath = config.getFilePath();
            analysis(configPath, factChain);
+
         } catch (Exception e) {
             throw new FactAnalyzerException(e.getMessage());
         }
