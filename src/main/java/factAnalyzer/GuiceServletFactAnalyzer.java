@@ -93,11 +93,11 @@ public class GuiceServletFactAnalyzer extends AbstractFactAnalyzer{
         Map<String, Jar> jarMap = this.getProject().getJarMap();
         SootClass sootClass = (SootClass) object;
         VisibilityAnnotationTag visibilityAnnotationTag = (VisibilityAnnotationTag) sootClass.getTag("VisibilityAnnotationTag");
-//        if(jarMap.containsKey("guice-servlet") && visibilityAnnotationTag != null){
-//            this.setEnable(true);
-//        }else{
-//            this.setEnable(false);
-//        }
+        if(jarMap.containsKey("guice-servlet") && visibilityAnnotationTag != null){
+            this.setEnable(true);
+        }else{
+            this.setEnable(false);
+        }
     }
 
     public static void main(String[] args) {

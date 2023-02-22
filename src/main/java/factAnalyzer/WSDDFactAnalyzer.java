@@ -28,7 +28,6 @@ public class WSDDFactAnalyzer extends SOAPFactAnalyzer{
     }
     @Override
     public void prepare(Object object) {
-        super.prepare(object);
         Config config = (Config) object;
         if(config.getSuffix().equals("wsdd")){
             this.setEnable(true);
