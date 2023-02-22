@@ -11,6 +11,14 @@ import java.util.*;
 )
 public class UnionFactAnalyzer extends AbstractFactAnalyzer {
 
+    public UnionFactAnalyzer(String name, String type, String description) {
+        super(name, type, description);
+    }
+
+    public UnionFactAnalyzer() {
+        super(UnionFactAnalyzer.class.getName(), "union", "");
+    }
+
     @Override
     public void prepare(Object object) {
 
@@ -38,20 +46,5 @@ public class UnionFactAnalyzer extends AbstractFactAnalyzer {
             e.printStackTrace();
             throw new FactAnalyzerException(e.getMessage());
         }
-    }
-
-    @Override
-    public String getName() {
-        return "UnionFactAnalyzer";
-    }
-
-    @Override
-    public String getType() {
-        return "union";
-    }
-
-    @Override
-    public String getFactDescription() {
-        return "";
     }
 }

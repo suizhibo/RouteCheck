@@ -12,6 +12,9 @@ import java.util.Map;
 )
 public class ApacheCXFFactAnalyzer extends JAXRSFactAnalyzer{
 
+    public ApacheCXFFactAnalyzer(){
+        super(ApacheCXFFactAnalyzer.class.getName(), "class", "");
+    }
     @Override
     public void prepare(Object object) {
         Map<String, Jar> jarMap = this.getProject().getJarMap();
@@ -22,20 +25,5 @@ public class ApacheCXFFactAnalyzer extends JAXRSFactAnalyzer{
         }else{
             this.setEnable(false);
         }
-    }
-
-    @Override
-    public String getName() {
-        return "ApacheCXFFactAnalyzer";
-    }
-
-    @Override
-    public String getType() {
-        return "class";
-    }
-
-    @Override
-    public String getFactDescription() {
-        return "";
     }
 }

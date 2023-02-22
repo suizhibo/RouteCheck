@@ -13,6 +13,9 @@ import java.util.*;
 )
 public class SOAPUnionFactAnalyzer extends UnionFactAnalyzer {
 
+    public SOAPUnionFactAnalyzer(){
+        super(SOAPUnionFactAnalyzer.class.getName(), "union", "");
+    }
     @Override
     public void prepare(Object object) {
         super.prepare(object);
@@ -70,20 +73,5 @@ public class SOAPUnionFactAnalyzer extends UnionFactAnalyzer {
             e.printStackTrace();
             throw new FactAnalyzerException(e.getMessage());
         }
-    }
-
-    @Override
-    public String getName() {
-        return "SOAPUnionFactAnalyzer";
-    }
-
-    @Override
-    public String getType() {
-        return "union";
-    }
-
-    @Override
-    public String getFactDescription() {
-        return "";
     }
 }

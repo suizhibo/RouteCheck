@@ -26,6 +26,10 @@ public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
     static Map<String, Element> servlets = new HashMap<>();
     static Map<String, Set<Element>> servletMappings = new HashMap<>();
 
+    public WebXmlFactAnalyzer() {
+        super(WebXmlFactAnalyzer.class.getName(), "config", "");
+    }
+
     @Override
     public void prepare(Object object) {
         setEnable(false);
@@ -93,26 +97,6 @@ public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
         }
 
 
-    }
-
-    @Override
-    public String getName() {
-        return "WebXmlFactAnalyzer";
-    }
-
-    @Override
-    public String getType() {
-        return "config";
-    }
-
-    @Override
-    public String getFactDescription() {
-        return "";
-    }
-
-    @Override
-    public String toString() {
-        return getName() + "\n" + getFactDescription();
     }
 
     public static void main(String[] args) throws Exception {

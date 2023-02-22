@@ -12,6 +12,9 @@ import java.util.Map;
 )
 public class RESTEasyFactAnalyzer extends JAXRSFactAnalyzer{
 
+    public RESTEasyFactAnalyzer(){
+        super(RESTEasyFactAnalyzer.class.getName(), "class", "");
+    }
     @Override
     public void prepare(Object object) {
         Map<String, Jar> jarMap = this.getProject().getJarMap();
@@ -22,10 +25,5 @@ public class RESTEasyFactAnalyzer extends JAXRSFactAnalyzer{
         }else{
             this.setEnable(false);
         }
-    }
-
-    @Override
-    public String getName() {
-        return "RESTEasyFactAnalyzer";
     }
 }

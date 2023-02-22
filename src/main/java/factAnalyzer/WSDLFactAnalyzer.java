@@ -18,10 +18,10 @@ import java.util.List;
         name = "WSDLFactAnalyzer"
 )
 public class WSDLFactAnalyzer extends SOAPFactAnalyzer{
-    private final String NAME = "WSDLFactAnalyzer";
 
-    private final String TYPE = "config";
-    private final String DESCRIPTION = "";
+    public WSDLFactAnalyzer(){
+        super(WSDLFactAnalyzer.class.getName(), "config", "");
+    }
 
     @Override
     public void prepare(Object object) {
@@ -67,21 +67,6 @@ public class WSDLFactAnalyzer extends SOAPFactAnalyzer{
         }catch (Exception e){
             throw new FactAnalyzerException(e.getMessage());
         }
-    }
-
-    @Override
-    public String getName() {
-        return "WSDLFactAnalyzer";
-    }
-
-    @Override
-    public String getType() {
-        return "config";
-    }
-
-    @Override
-    public String getFactDescription() {
-        return "";
     }
 
     public static void main(String[] args) throws Exception {

@@ -21,6 +21,10 @@ public class SpringBootAnnotationFactAnalyzer extends SpringFactAnalyzer{
     private final String PATTERN = "Lorg/springframework/stereotype/Controller;";
     private final String PATTERNMAP = "Lorg/springframework/web/bind/annotation";
 
+    public SpringBootAnnotationFactAnalyzer(){
+        super(SpringBootAnnotationFactAnalyzer.class.getName(), "class", "");
+    }
+
     private Collection<String> findRoute(ArrayList<AnnotationTag> annotationTags){
         Set<String> route = new HashSet<>();
         annotationTags.forEach(a -> {
@@ -83,21 +87,6 @@ public class SpringBootAnnotationFactAnalyzer extends SpringFactAnalyzer{
                 }
             });
         }
-    }
-
-    @Override
-    public String getName() {
-        return "SpringBootAnnotationFactAnalyzer";
-    }
-
-    @Override
-    public String getType() {
-        return "class";
-    }
-
-    @Override
-    public String getFactDescription() {
-        return "";
     }
 
     @Override

@@ -19,6 +19,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 )
 public class HttpServletFactAnalyzer extends AbstractFactAnalyzer{
 
+    public HttpServletFactAnalyzer() {
+        super(HttpServletFactAnalyzer.class.getName(), "class", "");
+    }
+
     @Override
     public void prepare(Object object) {
         // TODO： nothing
@@ -88,25 +92,5 @@ public class HttpServletFactAnalyzer extends AbstractFactAnalyzer{
         }catch (Exception e){
             throw new FactAnalyzerException(e.getMessage());
         }
-    }
-
-    @Override
-    public String getName() {
-        return "HttpServletFactAnalyzer";
-    }
-
-    @Override
-    public String getType() {
-        return "class";
-    }
-
-    @Override
-    public String getFactDescription() {
-        return "";
-    }
-
-    @Override
-    public String toString() {
-        return getName() + "\n" + getFactDescription();
     }
 }

@@ -19,10 +19,10 @@ import java.util.List;
         name = "Struts2ConfigXmlFactAnalyzer"
 )
 public class StrutsConfigXmlFactAnalyzer extends AbstractFactAnalyzer {
-    private final String NAME = "Struts2ConfigXmlFactAnalyzer";
 
-    private final String TYPE = "config";
-    private final String DESCRIPTION = "";
+    public StrutsConfigXmlFactAnalyzer() {
+        super(StrutsConfigXmlFactAnalyzer.class.getName(), "config", "");
+    }
 
     @Override
     public void analysis(Object object, Collection<Fact> factChain) throws FactAnalyzerException {
@@ -78,21 +78,6 @@ public class StrutsConfigXmlFactAnalyzer extends AbstractFactAnalyzer {
         } catch (Exception e) {
             throw new FactAnalyzerException(e.getMessage());
         }
-    }
-
-    @Override
-    public String getName() {
-        return "StrutsConfigXmlFactAnalyzer";
-    }
-
-    @Override
-    public String getType() {
-        return "config";
-    }
-
-    @Override
-    public String getFactDescription() {
-        return "";
     }
 
     @Override

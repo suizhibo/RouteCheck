@@ -17,6 +17,11 @@ public class JAXRSFactAnalyzer extends AbstractFactAnalyzer {
     protected final String PATTERNPATH = "Ljavax/ws/rs/Path;";
 
     public JAXRSFactAnalyzer() {
+        super(JAXRSFactAnalyzer.class.getName(), "class", "");
+    }
+
+    public JAXRSFactAnalyzer(String name, String type, String description){
+        super(name, type, description);
     }
 
     protected Collection<String> findRoute(ArrayList<AnnotationTag> annotationTags) {
@@ -87,21 +92,6 @@ public class JAXRSFactAnalyzer extends AbstractFactAnalyzer {
         } catch (Exception e) {
             throw new FactAnalyzerException(e.getMessage());
         }
-    }
-
-    @Override
-    public String getName() {
-        return "JAXRSFactAnalyzer";
-    }
-
-    @Override
-    public String getType() {
-        return "class";
-    }
-
-    @Override
-    public String getFactDescription() {
-        return "";
     }
 
     @Override

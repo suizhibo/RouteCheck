@@ -21,11 +21,10 @@ import java.util.List;
         name = "SpringMVCWebXmlFactAnalyzer"
 )
 public class SpringMVCWebXmlFactAnalyzer extends SpringFactAnalyzer {
-    private final String NAME = "SpringMVCWebXmlFactAnalyzer";
 
-    private final String TYPE = "config";
-    private final String DESCRIPTION = "";
-
+    public SpringMVCWebXmlFactAnalyzer(){
+        super(SpringMVCWebXmlFactAnalyzer.class.getName(), "config", "");
+    }
     public void analysis(String dispatchXmlPath, Collection<Fact> factChain) {
         /*
          * bean标签 https://blog.csdn.net/ZixiangLi/article/details/87937819
@@ -145,21 +144,6 @@ public class SpringMVCWebXmlFactAnalyzer extends SpringFactAnalyzer {
         } catch (Exception e) {
             throw new FactAnalyzerException(e.getMessage());
         }
-    }
-
-    @Override
-    public String getName() {
-        return "SpringMVCWebXmlFactAnalyzer";
-    }
-
-    @Override
-    public String getType() {
-        return "config";
-    }
-
-    @Override
-    public String getFactDescription() {
-        return "";
     }
 
     @Override

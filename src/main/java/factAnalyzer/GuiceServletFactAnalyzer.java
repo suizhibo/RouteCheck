@@ -21,6 +21,10 @@ import java.util.regex.Pattern;
 )
 public class GuiceServletFactAnalyzer extends AbstractFactAnalyzer{
 
+    public GuiceServletFactAnalyzer() {
+        super(GuiceServletFactAnalyzer.class.getName(), "class", "");
+    }
+
     @Override
     public void analysis(Object object, Collection<Fact> factChain) throws FactAnalyzerException {
         // https://blog.csdn.net/a304096740/article/details/101883424
@@ -82,21 +86,6 @@ public class GuiceServletFactAnalyzer extends AbstractFactAnalyzer{
         }catch (Exception e){
             throw new FactAnalyzerException(e.getMessage());
         }
-    }
-
-    @Override
-    public String getName() {
-        return "GuiceServletFactAnalyzer";
-    }
-
-    @Override
-    public String getType() {
-        return "class";
-    }
-
-    @Override
-    public String getFactDescription() {
-        return "";
     }
 
     @Override

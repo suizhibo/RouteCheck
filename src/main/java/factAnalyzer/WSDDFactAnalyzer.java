@@ -23,6 +23,9 @@ import java.util.Map;
 public class WSDDFactAnalyzer extends SOAPFactAnalyzer{
     static Map<String, Element> services = new HashMap<>();
 
+    public WSDDFactAnalyzer(){
+        super(WSDDFactAnalyzer.class.getName(), "config", "");
+    }
     @Override
     public void prepare(Object object) {
         super.prepare(object);
@@ -55,21 +58,6 @@ public class WSDDFactAnalyzer extends SOAPFactAnalyzer{
         }catch (Exception e){
             throw new FactAnalyzerException(e.getMessage());
         }
-    }
-
-    @Override
-    public String getName() {
-        return "WSDDFactAnalyzer";
-    }
-
-    @Override
-    public String getType() {
-        return "config";
-    }
-
-    @Override
-    public String getFactDescription() {
-        return "";
     }
 
     public static void main(String[] args) throws Exception {
