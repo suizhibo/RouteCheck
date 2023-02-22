@@ -17,10 +17,6 @@ import java.util.*;
         name = "SpringBootAnnotationFactAnalyzer"
 )
 public class SpringBootAnnotationFactAnalyzer extends SpringFactAnalyzer{
-    private final String NAME = "SpringBootAnnotationFactAnalyzer";
-
-    private final String TYPE = "class";
-    private final String DESCRIPTION = "";
 
     private final String PATTERN = "Lorg/springframework/stereotype/Controller;";
     private final String PATTERNMAP = "Lorg/springframework/web/bind/annotation";
@@ -81,7 +77,7 @@ public class SpringBootAnnotationFactAnalyzer extends SpringFactAnalyzer{
                         });
                         fact.setMethod(sootMethod.getName());
                         fact.setCredibility(3);
-                        fact.setFactName(this.NAME);
+                        fact.setFactName(getName());
                         factChain.add(fact);
                     }
                 }
@@ -91,17 +87,17 @@ public class SpringBootAnnotationFactAnalyzer extends SpringFactAnalyzer{
 
     @Override
     public String getName() {
-        return NAME;
+        return "SpringBootAnnotationFactAnalyzer";
     }
 
     @Override
     public String getType() {
-        return TYPE;
+        return "class";
     }
 
     @Override
     public String getFactDescription() {
-        return DESCRIPTION;
+        return "";
     }
 
     @Override

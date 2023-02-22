@@ -18,10 +18,6 @@ import java.util.*;
         name = "StrutsXmlFactAnalyzer"
 )
 public class StrutsXmlFactAnalyzer extends AbstractFactAnalyzer{
-    private final String NAME = "StrutsXmlFactAnalyzer";
-
-    private final String TYPE = "config";
-    private final String DESCRIPTION = "";
 
     static Map<String, Element> actionMap = new HashMap<>();
     @Override
@@ -57,7 +53,7 @@ public class StrutsXmlFactAnalyzer extends AbstractFactAnalyzer{
                             fact.setDescription(String.format("从%s中发现%s", config.getFilePath(),
                                     action.toString()));
                             fact.setCredibility(3);
-                            fact.setFactName(this.NAME);
+                            fact.setFactName(getName());
                             factChain.add(fact);
                         }catch (Exception e){
 
@@ -74,17 +70,17 @@ public class StrutsXmlFactAnalyzer extends AbstractFactAnalyzer{
 
     @Override
     public String getName() {
-        return NAME;
+        return "StrutsXmlFactAnalyzer";
     }
 
     @Override
     public String getType() {
-        return TYPE;
+        return "config";
     }
 
     @Override
     public String getFactDescription() {
-        return DESCRIPTION;
+        return "";
     }
 
     @Override

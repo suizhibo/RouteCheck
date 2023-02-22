@@ -22,9 +22,6 @@ import java.util.*;
 https://docs.oracle.com/cd/E13222_01/wls/docs81/webapp/web_xml.html
 */
 public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
-    private final String NAME = "WebXmlFactAnalyzer";
-    private final String TYPE = "config";
-    private final String DESCRIPTION = "";
 
     static Map<String, Element> servlets = new HashMap<>();
     static Map<String, Set<Element>> servletMappings = new HashMap<>();
@@ -86,6 +83,7 @@ public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
                         fact.setDescription(String.format("从文件%s中提取出servlet和servlet-mapping", config.getFilePath()));
                         fact.setCredibility(3);
                         fact.setMethod("do*");
+                        fact.setFactName(getName());
                         factChain.add(fact);
                     });
                 });
@@ -99,17 +97,17 @@ public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
 
     @Override
     public String getName() {
-        return NAME;
+        return "WebXmlFactAnalyzer";
     }
 
     @Override
     public String getType() {
-        return TYPE;
+        return "config";
     }
 
     @Override
     public String getFactDescription() {
-        return DESCRIPTION;
+        return "";
     }
 
     @Override

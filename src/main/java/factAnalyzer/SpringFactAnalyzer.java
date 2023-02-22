@@ -6,10 +6,7 @@ import exceptions.FactAnalyzerException;
 import java.util.Collection;
 
 public class SpringFactAnalyzer extends AbstractFactAnalyzer{
-    private final String NAME = "SpringFactAnalyzer";
 
-    private final String TYPE = "";
-    private final String DESCRIPTION = "";
     @Override
     public void analysis(Object object, Collection<Fact> factChain) throws FactAnalyzerException {
 
@@ -17,17 +14,17 @@ public class SpringFactAnalyzer extends AbstractFactAnalyzer{
 
     @Override
     public String getName() {
-        return this.NAME;
+        return "SpringFactAnalyzer";
     }
 
     @Override
     public String getType() {
-        return this.TYPE;
+        return "";
     }
 
     @Override
     public String getFactDescription() {
-        return this.DESCRIPTION;
+        return "";
     }
 
     @Override

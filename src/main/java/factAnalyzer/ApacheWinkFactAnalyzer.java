@@ -11,10 +11,6 @@ import java.util.Map;
         name = "ApacheWinkFactAnalyzer"
 )
 public class ApacheWinkFactAnalyzer extends JAXRSFactAnalyzer{
-    private final String NAME = "ApacheWinkFactAnalyzer";
-
-    private final String TYPE = "class";
-    private final String DESCRIPTION = "";
 
     @Override
     public void prepare(Object object) {
@@ -30,16 +26,16 @@ public class ApacheWinkFactAnalyzer extends JAXRSFactAnalyzer{
 
     @Override
     public String getName() {
-        return this.NAME;
+        return "ApacheWinkFactAnalyzer";
     }
 
     @Override
     public String getType() {
-        return this.TYPE;
+        return "class";
     }
 
     @Override
     public String getFactDescription() {
-        return this.DESCRIPTION;
+        return "";
     }
 }

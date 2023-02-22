@@ -1,29 +1,23 @@
 package factAnalyzer;
 
-import annotations.FactAnalyzerAnnotations;
 import entry.Fact;
 import exceptions.FactAnalyzerException;
 import soot.SootClass;
 import soot.SootMethod;
-import soot.tagkit.AnnotationArrayElem;
 import soot.tagkit.AnnotationStringElem;
 import soot.tagkit.AnnotationTag;
 import soot.tagkit.VisibilityAnnotationTag;
 import utils.Utils;
 
-import javax.naming.Name;
 import java.util.*;
 
 
 public class JAXRSFactAnalyzer extends AbstractFactAnalyzer {
-
-    private final String NAME = "JAXRSFactAnalyzer";
-
-    private final String TYPE = "class";
-    private final String DESCRIPTION = "";
-
     protected final String PATTERN = "Lorg/springframework/stereotype/Controller;";
     protected final String PATTERNPATH = "Ljavax/ws/rs/Path;";
+
+    public JAXRSFactAnalyzer() {
+    }
 
     protected Collection<String> findRoute(ArrayList<AnnotationTag> annotationTags) {
         Set<String> route = new HashSet<>();
@@ -82,7 +76,7 @@ public class JAXRSFactAnalyzer extends AbstractFactAnalyzer {
                                 });
                                 fact.setMethod(sootMethod.getName());
                                 fact.setCredibility(3);
-                                fact.setFactName(getName());
+                                fact.setFactName(this.getName());
                                 factChain.add(fact);
                             }
                         }
@@ -97,17 +91,17 @@ public class JAXRSFactAnalyzer extends AbstractFactAnalyzer {
 
     @Override
     public String getName() {
-        return this.NAME;
+        return "JAXRSFactAnalyzer";
     }
 
     @Override
     public String getType() {
-        return this.TYPE;
+        return "class";
     }
 
     @Override
     public String getFactDescription() {
-        return this.DESCRIPTION;
+        return "";
     }
 
     @Override

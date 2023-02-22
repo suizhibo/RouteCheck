@@ -11,10 +11,6 @@ import java.util.Map;
         name = "RESTEasyFactAnalyzer"
 )
 public class RESTEasyFactAnalyzer extends JAXRSFactAnalyzer{
-    private final String NAME = "RESTEasyFactAnalyzer";
-
-    private final String TYPE = "class";
-    private final String DESCRIPTION = "";
 
     @Override
     public void prepare(Object object) {
@@ -30,16 +26,6 @@ public class RESTEasyFactAnalyzer extends JAXRSFactAnalyzer{
 
     @Override
     public String getName() {
-        return this.NAME;
-    }
-
-    @Override
-    public String getType() {
-        return this.TYPE;
-    }
-
-    @Override
-    public String getFactDescription() {
-        return this.DESCRIPTION;
+        return "RESTEasyFactAnalyzer";
     }
 }

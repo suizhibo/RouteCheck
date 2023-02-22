@@ -69,6 +69,21 @@ public class WSDLFactAnalyzer extends SOAPFactAnalyzer{
         }
     }
 
+    @Override
+    public String getName() {
+        return "WSDLFactAnalyzer";
+    }
+
+    @Override
+    public String getType() {
+        return "config";
+    }
+
+    @Override
+    public String getFactDescription() {
+        return "";
+    }
+
     public static void main(String[] args) throws Exception {
         SAXBuilder saxBuilder = new SAXBuilder();
         InputStream is = new FileInputStream(new File("D:\\工作\\文档\\源码\\久其财务报表\\ACRDataTransport.wsdl"));

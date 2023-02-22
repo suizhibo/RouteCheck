@@ -21,11 +21,6 @@ import java.util.Map;
 )
 
 public class WSDDFactAnalyzer extends SOAPFactAnalyzer{
-    private final String NAME = "WSDDFactAnalyzer";
-
-    private final String TYPE = "config";
-    private final String DESCRIPTION = "";
-
     static Map<String, Element> services = new HashMap<>();
 
     @Override
@@ -62,6 +57,21 @@ public class WSDDFactAnalyzer extends SOAPFactAnalyzer{
         }
     }
 
+    @Override
+    public String getName() {
+        return "WSDDFactAnalyzer";
+    }
+
+    @Override
+    public String getType() {
+        return "config";
+    }
+
+    @Override
+    public String getFactDescription() {
+        return "";
+    }
+
     public static void main(String[] args) throws Exception {
 
         // TODO: 解析*.wsdd
@@ -78,4 +88,5 @@ public class WSDDFactAnalyzer extends SOAPFactAnalyzer{
         });
 
     }
+
 }

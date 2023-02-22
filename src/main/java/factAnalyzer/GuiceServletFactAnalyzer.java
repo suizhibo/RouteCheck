@@ -3,7 +3,6 @@ package factAnalyzer;
 import annotations.FactAnalyzerAnnotations;
 import entry.Fact;
 import exceptions.FactAnalyzerException;
-import org.slf4j.helpers.Util;
 import project.entry.Jar;
 import soot.SootClass;
 import soot.SootMethod;
@@ -21,11 +20,6 @@ import java.util.regex.Pattern;
         name = "GuiceServletFactAnalyzer"
 )
 public class GuiceServletFactAnalyzer extends AbstractFactAnalyzer{
-    private final String NAME = "GuiceServletFactAnalyzer";
-
-    private final String TYPE = "class";
-    private final String DESCRIPTION = "";
-
 
     @Override
     public void analysis(Object object, Collection<Fact> factChain) throws FactAnalyzerException {
@@ -73,7 +67,7 @@ public class GuiceServletFactAnalyzer extends AbstractFactAnalyzer{
                                 fact.setCredibility(3);
                                 fact.setRoute(route);
                                 fact.setDescription(line);
-                                fact.setFactName(this.NAME);
+                                fact.setFactName(getName());
                                 factChain.add(fact);
                                 }
                             }
@@ -92,17 +86,17 @@ public class GuiceServletFactAnalyzer extends AbstractFactAnalyzer{
 
     @Override
     public String getName() {
-        return NAME;
+        return "GuiceServletFactAnalyzer";
     }
 
     @Override
     public String getType() {
-        return TYPE;
+        return "class";
     }
 
     @Override
     public String getFactDescription() {
-        return DESCRIPTION;
+        return "";
     }
 
     @Override

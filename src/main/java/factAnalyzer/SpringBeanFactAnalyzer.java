@@ -18,10 +18,6 @@ import java.util.List;
         name = "SpringBeanFactAnalyzer"
 )
 public class SpringBeanFactAnalyzer extends SpringFactAnalyzer{
-    private final String NAME = "SpringBeanFactAnalyzer";
-
-    private final String TYPE = "config";
-    private final String DESCRIPTION = "";
 
     public void analysis(String configPath, Collection<Fact> factChain) {
         /*
@@ -71,7 +67,7 @@ public class SpringBeanFactAnalyzer extends SpringFactAnalyzer{
                                         fact.setCredibility(3);
                                         fact.setDescription(child.toString());
                                         fact.setClassName(clazzName);
-                                        fact.setFactName(this.NAME);
+                                        fact.setFactName(getName());
                                         factChain.add(fact);
                                     }
                                 }
@@ -90,7 +86,7 @@ public class SpringBeanFactAnalyzer extends SpringFactAnalyzer{
                             fact.setMethod("handleRequest");
                             fact.setRoute(name);
                             fact.setClassName(clazz);
-                            fact.setFactName(this.NAME);
+                            fact.setFactName(getName());
                             factChain.add(fact);
                         }
                     }
@@ -115,17 +111,17 @@ public class SpringBeanFactAnalyzer extends SpringFactAnalyzer{
 
     @Override
     public String getName() {
-        return NAME;
+        return "SpringBeanFactAnalyzer";
     }
 
     @Override
     public String getType() {
-        return TYPE;
+        return "config";
     }
 
     @Override
     public String getFactDescription() {
-        return DESCRIPTION;
+        return "";
     }
 
     @Override

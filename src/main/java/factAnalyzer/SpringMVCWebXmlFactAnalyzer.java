@@ -69,7 +69,7 @@ public class SpringMVCWebXmlFactAnalyzer extends SpringFactAnalyzer {
                                         fact.setCredibility(3);
                                         fact.setDescription(child.toString());
                                         fact.setClassName(clazzName);
-                                        fact.setFactName(this.NAME);
+                                        fact.setFactName(getName());
                                         factChain.add(fact);
                                     }
                                 }
@@ -88,7 +88,7 @@ public class SpringMVCWebXmlFactAnalyzer extends SpringFactAnalyzer {
                             fact.setMethod("handleRequest");
                             fact.setRoute(name);
                             fact.setClassName(clazz);
-                            fact.setFactName(this.NAME);
+                            fact.setFactName(getName());
                             factChain.add(fact);
                         }
 
@@ -149,17 +149,17 @@ public class SpringMVCWebXmlFactAnalyzer extends SpringFactAnalyzer {
 
     @Override
     public String getName() {
-        return NAME;
+        return "SpringMVCWebXmlFactAnalyzer";
     }
 
     @Override
     public String getType() {
-        return TYPE;
+        return "config";
     }
 
     @Override
     public String getFactDescription() {
-        return DESCRIPTION;
+        return "";
     }
 
     @Override
@@ -169,7 +169,6 @@ public class SpringMVCWebXmlFactAnalyzer extends SpringFactAnalyzer {
         String suffix = config.getSuffix();
         if (suffix != null && suffix.equals("xml")) {
             String filePath = config.getFilePath();
-            // TODO: 解析web.xml
             try{
                 // TODO: 判断是否包含<web-app>标签
                 SAXBuilder saxBuilder = new SAXBuilder();

@@ -11,11 +11,6 @@ import java.util.*;
 )
 public class UnionFactAnalyzer extends AbstractFactAnalyzer {
 
-    private final String NAME = "UnionFactAnalyzer";
-
-    private final String TYPE = "Union";
-    private final String DESCRIPTION = "";
-
     @Override
     public void prepare(Object object) {
 
@@ -47,16 +42,16 @@ public class UnionFactAnalyzer extends AbstractFactAnalyzer {
 
     @Override
     public String getName() {
-        return this.NAME;
+        return "UnionFactAnalyzer";
     }
 
     @Override
     public String getType() {
-        return this.TYPE;
+        return "union";
     }
 
     @Override
     public String getFactDescription() {
-        return this.DESCRIPTION;
+        return "";
     }
 }

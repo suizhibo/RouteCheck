@@ -18,10 +18,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
         name = "HttpServletFactAnalyzer"
 )
 public class HttpServletFactAnalyzer extends AbstractFactAnalyzer{
-    private final String NAME = "HttpServletFactAnalyzer";
-
-    private final String TYPE = "class";
-    private final String DESCRIPTION = "";
 
     @Override
     public void prepare(Object object) {
@@ -67,7 +63,7 @@ public class HttpServletFactAnalyzer extends AbstractFactAnalyzer{
                                     fact.setDescription("类文件中使用注解：" + a.toString());
                                     fact.setCredibility(3);
                                     fact.setMethod("do*");
-                                    fact.setFactName(this.NAME);
+                                    fact.setFactName(getName());
                                     factChain.add(fact);
                                     hasWebServlet.set(true);
                                 }
@@ -85,7 +81,7 @@ public class HttpServletFactAnalyzer extends AbstractFactAnalyzer{
                     fact.setCredibility(1);
                     fact.setDescription("类文件继承（直接或间接）javax.servlet.http.HttpServlet");
                     fact.setMethod("do*");
-                    fact.setFactName(this.NAME);
+                    fact.setFactName(getName());
                     factChain.add(fact);
                 }
             }
@@ -96,17 +92,17 @@ public class HttpServletFactAnalyzer extends AbstractFactAnalyzer{
 
     @Override
     public String getName() {
-        return NAME;
+        return "HttpServletFactAnalyzer";
     }
 
     @Override
     public String getType() {
-        return TYPE;
+        return "class";
     }
 
     @Override
     public String getFactDescription() {
-        return DESCRIPTION;
+        return "";
     }
 
     @Override

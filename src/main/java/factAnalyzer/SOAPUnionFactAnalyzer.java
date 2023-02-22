@@ -12,10 +12,6 @@ import java.util.*;
         name = "SOAPUnionFactAnalyzer"
 )
 public class SOAPUnionFactAnalyzer extends UnionFactAnalyzer {
-    private final String NAME = "SOAPUnionFactAnalyzer";
-
-    private final String TYPE = "Union";
-    private final String DESCRIPTION = "";
 
     @Override
     public void prepare(Object object) {
@@ -50,7 +46,7 @@ public class SOAPUnionFactAnalyzer extends UnionFactAnalyzer {
                                         fact.setClassName(className);
                                         fact.setClassNameMD5(Utils.getMD5Str(className));
                                         fact.setCredibility(2);
-                                        fact.setFactName(this.NAME);
+                                        fact.setFactName(getName());
                                         factChain.add(fact);
                                         fact.setDescription(String.format("从Web.xml中发现servlet-name:AxisServlet,url-pattern:%s，WSDD中发现service name:%s, className: %s",
                                                 urlPattern, serviceName, fact.getClassName()));
@@ -74,5 +70,20 @@ public class SOAPUnionFactAnalyzer extends UnionFactAnalyzer {
             e.printStackTrace();
             throw new FactAnalyzerException(e.getMessage());
         }
+    }
+
+    @Override
+    public String getName() {
+        return "SOAPUnionFactAnalyzer";
+    }
+
+    @Override
+    public String getType() {
+        return "union";
+    }
+
+    @Override
+    public String getFactDescription() {
+        return "";
     }
 }

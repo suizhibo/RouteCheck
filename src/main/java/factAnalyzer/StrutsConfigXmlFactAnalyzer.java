@@ -49,7 +49,7 @@ public class StrutsConfigXmlFactAnalyzer extends AbstractFactAnalyzer {
                             fact.setClassName(Utils.getMD5Str(formBeanName));
                             fact.setCredibility(2);
                             fact.setDescription(String.format("从%s文件中发现%s", "", formBean.toString()));
-                            fact.setFactName(this.NAME);
+                            fact.setFactName(getName());
                             factChain.add(fact);
                         } catch (Exception ex) {
 
@@ -67,7 +67,7 @@ public class StrutsConfigXmlFactAnalyzer extends AbstractFactAnalyzer {
                             fact.setClassName(Utils.getMD5Str(actionType));
                             fact.setCredibility(2);
                             fact.setDescription(String.format("从%s文件中发现%s", "", action.toString()));
-                            fact.setFactName(this.NAME);
+                            fact.setFactName(getName());
                             factChain.add(fact);
                         } catch (Exception ex) {
 
@@ -82,17 +82,17 @@ public class StrutsConfigXmlFactAnalyzer extends AbstractFactAnalyzer {
 
     @Override
     public String getName() {
-        return NAME;
+        return "StrutsConfigXmlFactAnalyzer";
     }
 
     @Override
     public String getType() {
-        return TYPE;
+        return "config";
     }
 
     @Override
     public String getFactDescription() {
-        return DESCRIPTION;
+        return "";
     }
 
     @Override

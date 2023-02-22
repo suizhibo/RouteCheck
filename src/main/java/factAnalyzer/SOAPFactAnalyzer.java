@@ -8,11 +8,6 @@ import java.util.Collection;
 
 public class SOAPFactAnalyzer extends AbstractFactAnalyzer {
 
-    private final String NAME = "SOAPFactAnalyzer";
-
-    private final String TYPE = "config";
-    private final String DESCRIPTION = "";
-
     @Override
     public void analysis(Object object, Collection<Fact> factChain) throws FactAnalyzerException {
 
@@ -20,17 +15,17 @@ public class SOAPFactAnalyzer extends AbstractFactAnalyzer {
 
     @Override
     public String getName() {
-        return this.NAME;
+        return "SOAPFactAnalyzer";
     }
 
     @Override
     public String getType() {
-        return this.TYPE;
+        return "config";
     }
 
     @Override
     public String getFactDescription() {
-        return this.DESCRIPTION;
+        return "";
     }
 
     @Override

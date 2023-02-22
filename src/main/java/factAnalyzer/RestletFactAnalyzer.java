@@ -14,10 +14,6 @@ import java.util.Map;
         name = "RestletFactAnalyzer"
 )
 public class RestletFactAnalyzer extends JAXRSFactAnalyzer{
-    private final String NAME = "RestletFactAnalyzer";
-
-    private final String TYPE = "class";
-    private final String DESCRIPTION = "";
 
     @Override
     public void prepare(Object object) {
@@ -39,16 +35,16 @@ public class RestletFactAnalyzer extends JAXRSFactAnalyzer{
 
     @Override
     public String getName() {
-        return this.NAME;
+        return "RestletFactAnalyzer";
     }
 
     @Override
     public String getType() {
-        return this.TYPE;
+        return "class";
     }
 
     @Override
     public String getFactDescription() {
-        return this.DESCRIPTION;
+        return "";
     }
 }
