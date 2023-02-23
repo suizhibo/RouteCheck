@@ -76,7 +76,13 @@ public class JAXRSFactAnalyzer extends AbstractFactAnalyzer {
                                         + annotationTagsTemp.toString());
                                 prefix.forEach(p -> {
                                     suffix.forEach(s -> {
-                                        fact.setRoute(p + s);
+                                        if(s.startsWith("/") || p.endsWith("/")){
+                                            fact.setRoute(p + s);
+                                        }
+                                        else{
+                                            fact.setRoute(p + "/" + s);
+                                        }
+
                                     });
                                 });
                                 fact.setMethod(sootMethod.getName());
