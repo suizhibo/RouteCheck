@@ -56,7 +56,7 @@ public class SpringBootAnnotationFactAnalyzer extends SpringFactAnalyzer{
         // TODO: 提取多重继承关系中的类注解的RequestMapping
         Set<String> prefix = (Set<String>) findRoute(annotationTags);
         if(sootClassVisibilityAnnotationTagString.contains(PATTERN) ||
-                sootClassVisibilityAnnotationTagString.contains(PATTERNMAP)){
+                (sootClassVisibilityAnnotationTagString.contains(PATTERNMAP) && sootClassVisibilityAnnotationTagString.contains("Mapping"))){
             List<SootMethod> sootMethodList = sootClass.getMethods();
             sootMethodList.forEach(sootMethod -> {
                 VisibilityAnnotationTag visibilityAnnotationTagTemp =
@@ -72,11 +72,17 @@ public class SpringBootAnnotationFactAnalyzer extends SpringFactAnalyzer{
                         fact.setClassName(sootClass.getName());
                         fact.setDescription("类文件中使用注解：" + annotationTags.toString() + "\n"
                                 +annotationTagsTemp.toString());
-                        prefix.forEach(p -> {
-                            suffix.forEach(s -> {
-                                fact.setRoute(p + s);
+                        if (prefix.size() > 0) {
+                            prefix.forEach(p -> {
+                                suffix.forEach(s -> {
+                                    fact.setRoute(p + s);
+                                });
                             });
-                        });
+                        }else{
+                            suffix.forEach(s -> {
+                                fact.setRoute(s);
+                            });
+                        }
                         fact.setMethod(sootMethod.getName());
                         fact.setCredibility(3);
                         fact.setFactName(getName());
