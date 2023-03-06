@@ -41,6 +41,7 @@ public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
             try{
                 // TODO: 判断是否包含<web-app>标签
                 SAXBuilder saxBuilder = new SAXBuilder();
+                saxBuilder.setEntityResolver(new NoOpEntityResolver());
                 InputStream is = new FileInputStream(new File(filePath));
                 Document document = saxBuilder.build(is);
                 Element rootElement = document.getRootElement();
@@ -60,6 +61,7 @@ public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
             String filePath = config.getFilePath();
             // TODO: 解析web.xml
             SAXBuilder saxBuilder = new SAXBuilder();
+            saxBuilder.setEntityResolver(new NoOpEntityResolver());
             InputStream is = new FileInputStream(new File(filePath));
             Document document = saxBuilder.build(is);
             Element rootElement = document.getRootElement();

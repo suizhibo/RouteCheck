@@ -32,6 +32,7 @@ public class StrutsXmlFactAnalyzer extends AbstractFactAnalyzer{
             String filePath = config.getFilePath();
             // TODO: 解析struts2.xml
             SAXBuilder saxBuilder = new SAXBuilder();
+            saxBuilder.setEntityResolver(new NoOpEntityResolver());
             InputStream is = new FileInputStream(new File(filePath));
             Document document = saxBuilder.build(is);
             Element rootElement = document.getRootElement();
@@ -83,6 +84,7 @@ public class StrutsXmlFactAnalyzer extends AbstractFactAnalyzer{
             try{
                 // TODO: 判断是否包含<struts>标签
                 SAXBuilder saxBuilder = new SAXBuilder();
+                saxBuilder.setEntityResolver(new NoOpEntityResolver());
                 InputStream is = new FileInputStream(new File(filePath));
                 Document document = saxBuilder.build(is);
                 Element rootElement = document.getRootElement();

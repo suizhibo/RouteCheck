@@ -31,6 +31,7 @@ public class StrutsConfigXmlFactAnalyzer extends AbstractFactAnalyzer {
             String filePath = config.getFilePath();
             // TODO: 解析struts-config.xml
             SAXBuilder saxBuilder = new SAXBuilder();
+            saxBuilder.setEntityResolver(new NoOpEntityResolver()); // 隐蔽dtd验证
             InputStream is = new FileInputStream(new File(filePath));
             Document document = saxBuilder.build(is);
             Element rootElement = document.getRootElement();
@@ -90,6 +91,7 @@ public class StrutsConfigXmlFactAnalyzer extends AbstractFactAnalyzer {
             try{
                 // TODO: 判断是否包含<struts-config>标签
                 SAXBuilder saxBuilder = new SAXBuilder();
+                saxBuilder.setEntityResolver(new NoOpEntityResolver());
                 InputStream is = new FileInputStream(new File(filePath));
                 Document document = saxBuilder.build(is);
                 Element rootElement = document.getRootElement();
@@ -105,6 +107,7 @@ public class StrutsConfigXmlFactAnalyzer extends AbstractFactAnalyzer {
     public static void main(String[] args) throws Exception {
         // TODO: 解析struts-config.xml
         SAXBuilder saxBuilder = new SAXBuilder();
+        saxBuilder.setEntityResolver(new NoOpEntityResolver());
         InputStream is = new FileInputStream(new File("D:\\工作\\专项工具\\RouteCheck\\config\\struts-config.xml"));
         Document document = saxBuilder.build(is);
         Element rootElement = document.getRootElement();

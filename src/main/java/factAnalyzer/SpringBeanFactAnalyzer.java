@@ -29,6 +29,7 @@ public class SpringBeanFactAnalyzer extends SpringFactAnalyzer{
          * */
         try {
             SAXBuilder saxBuilder = new SAXBuilder();
+            saxBuilder.setEntityResolver(new NoOpEntityResolver());
             InputStream is = new FileInputStream(new File(configPath));
             Document document = saxBuilder.build(is);
             Element rootElement = document.getRootElement();
@@ -115,7 +116,28 @@ public class SpringBeanFactAnalyzer extends SpringFactAnalyzer{
 
     @Override
     public void prepare(Object object) {
-        // TODO:判断xml文件中是否包含：xmlns="http://www.springframework.org/schema/beans"
+        // TODO:判断xml文件中是否包含：beans
+        setEnable(false);
+        Config config = (Config) object;
+        String suffix = config.getSuffix();
+        if (suffix != null && suffix.equals("xml")) {
+            String filePath = config.getFilePath();
+            // TODO: 解析.xml
+            try{
+                // TODO: 判断是否包含<beans>标签
+                SAXBuilder saxBuilder = new SAXBuilder();
+                saxBuilder.setEntityResolver(new NoOpEntityResolver());
+                InputStream is = new FileInputStream(new File(filePath));
+                Document document = saxBuilder.build(is);
+                Element rootElement = document.getRootElement();
+                if(rootElement.getName().equals("beans")){
+                    this.setEnable(true);
+                }
+            }catch (Exception ex){
+
+            }
+        }
+
     }
 
     public static void main(String[] args) throws Exception {

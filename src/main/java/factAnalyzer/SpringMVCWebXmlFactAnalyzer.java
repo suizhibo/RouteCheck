@@ -31,6 +31,7 @@ public class SpringMVCWebXmlFactAnalyzer extends SpringFactAnalyzer {
          * */
         try {
             SAXBuilder saxBuilder = new SAXBuilder();
+            saxBuilder.setEntityResolver(new NoOpEntityResolver());
             InputStream is = new FileInputStream(new File(dispatchXmlPath));
             Document document = saxBuilder.build(is);
             Element rootElement = document.getRootElement();
@@ -109,6 +110,7 @@ public class SpringMVCWebXmlFactAnalyzer extends SpringFactAnalyzer {
             String filePath = config.getFilePath();
             // TODO: 解析web.xml获取dispatcher-servlet.xml路径
             SAXBuilder saxBuilder = new SAXBuilder();
+            saxBuilder.setEntityResolver(new NoOpEntityResolver());
             InputStream is = new FileInputStream(new File(filePath));
             Document document = saxBuilder.build(is);
             Element rootElement = document.getRootElement();
@@ -156,6 +158,7 @@ public class SpringMVCWebXmlFactAnalyzer extends SpringFactAnalyzer {
             try{
                 // TODO: 判断是否包含<web-app>标签
                 SAXBuilder saxBuilder = new SAXBuilder();
+                saxBuilder.setEntityResolver(new NoOpEntityResolver());
                 InputStream is = new FileInputStream(new File(filePath));
                 Document document = saxBuilder.build(is);
                 Element rootElement = document.getRootElement();
