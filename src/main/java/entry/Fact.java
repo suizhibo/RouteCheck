@@ -1,12 +1,13 @@
 package entry;
 
+import utils.Utils;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Fact{
 
-    private String classNameMD5;
-    private String classPath;
+    private String md5;
     private String className;
     private List<String> routes;
     private String description;
@@ -35,30 +36,18 @@ public class Fact{
     public Fact(){
         this.routes = new ArrayList<>();
     }
-    public Fact(String classNameMD5, String classPath, String className, List<String> routes, String description, int credibility) {
-        this.classNameMD5 = classNameMD5;
-        this.classPath = classPath;
+    public Fact(String md5, String className, List<String> routes, String description, int credibility) {
+        this.md5 = md5;
         this.className = className;
         this.routes = routes;
         this.description = description;
         this.credibility = credibility;
     }
 
-    public String getClassNameMD5() {
-        return classNameMD5;
+    public String getMD5() {
+        return Utils.getMD5Str(this.className + this.method + String.join("", this.routes));
     }
 
-    public void setClassNameMD5(String classNameMD5) {
-        this.classNameMD5 = classNameMD5;
-    }
-
-    public String getClassPath() {
-        return classPath;
-    }
-
-    public void setClassPath(String classPath) {
-        this.classPath = classPath;
-    }
 
     public String getClassName() {
         return className;

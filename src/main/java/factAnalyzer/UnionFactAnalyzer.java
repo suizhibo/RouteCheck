@@ -34,7 +34,7 @@ public class UnionFactAnalyzer extends AbstractFactAnalyzer {
                 @Override
                 public int compare(Fact o1, Fact o2) {
                     try {
-                        return o1.getClassNameMD5().compareTo(o2.getClassNameMD5());
+                        return o1.getMD5().compareTo(o2.getMD5());
                     } catch (Exception e) {
                         return 0;
                     }

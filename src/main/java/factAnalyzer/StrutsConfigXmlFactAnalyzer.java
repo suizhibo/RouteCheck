@@ -46,7 +46,6 @@ public class StrutsConfigXmlFactAnalyzer extends AbstractFactAnalyzer {
                             String formBeanType = formBean.getAttributeValue("type");
                             fact.setRoute(formBeanName);
                             fact.setClassName(formBeanType);
-                            fact.setClassName(Utils.getMD5Str(formBeanName));
                             fact.setCredibility(2);
                             fact.setDescription(String.format("从%s文件中发现%s", "", formBean.toString()));
                             fact.setFactName(getName());

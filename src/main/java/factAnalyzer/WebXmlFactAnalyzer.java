@@ -81,7 +81,6 @@ public class WebXmlFactAnalyzer extends AbstractFactAnalyzer {
                     servletMapping.forEach(sm ->{
                         Fact fact = new Fact();
                         String servletClass = servlet.getChildText("servlet-class", servlet.getNamespace());
-                        fact.setClassNameMD5(Utils.getMD5Str(servletClass));
                         fact.setClassName(servletClass);
                         fact.setRoute(sm.getChildText("url-pattern", sm.getNamespace()));
                         fact.setDescription(String.format("从文件%s中提取出servlet和servlet-mapping", config.getFilePath()));

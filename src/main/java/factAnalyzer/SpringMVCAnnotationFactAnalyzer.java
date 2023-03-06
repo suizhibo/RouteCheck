@@ -69,9 +69,7 @@ public class SpringMVCAnnotationFactAnalyzer extends SpringFactAnalyzer{
                         ArrayList<AnnotationTag> annotationTagsTemp = visibilityAnnotationTagTemp.getAnnotations();
                         Set<String> suffix = (Set<String>) findRoute(annotationTagsTemp);
                         Fact fact = new Fact();
-                        fact.setClassNameMD5(Utils.getMD5Str(sootClass.getName()));
                         fact.setClassName(sootClass.getName());
-                        fact.setClassPath(sootClass.getFilePath());
                         fact.setDescription("类文件中使用注解：" + annotationTags.toString() + "\n"
                                 +annotationTagsTemp.toString());
                         prefix.forEach(p -> {

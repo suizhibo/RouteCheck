@@ -55,7 +55,6 @@ public class HttpServletFactAnalyzer extends AbstractFactAnalyzer{
                         a.getElems().forEach(e ->{
                             if(e.getClass().toString().contains("AnnotationArrayElem")){
                                 if(e.getName().equals("urlPatterns") || e.toString().contains("/")){
-                                    fact.setClassNameMD5(Utils.getMD5Str(sootClass.getName()));
                                     AnnotationArrayElem annotationArrayElem = (AnnotationArrayElem) e;
                                     annotationArrayElem.getValues().forEach(v ->{
                                         AnnotationStringElem annotationStringElem = (AnnotationStringElem) v;
@@ -63,7 +62,6 @@ public class HttpServletFactAnalyzer extends AbstractFactAnalyzer{
                                         fact.setRoute(route);
                                     });
                                     fact.setClassName(sootClass.getName());
-                                    fact.setClassPath(sootClass.getFilePath());
                                     fact.setDescription("类文件中使用注解：" + a.toString());
                                     fact.setCredibility(3);
                                     fact.setMethod("do*");
@@ -79,9 +77,7 @@ public class HttpServletFactAnalyzer extends AbstractFactAnalyzer{
 
             if(!hasWebServlet.get() && sootClass.hasSuperclass()){
                 if(hasSuperClass(sootClass)){
-                    fact.setClassNameMD5(Utils.getMD5Str(sootClass.getName()));
                     fact.setClassName(sootClass.getName());
-                    fact.setClassPath(sootClass.getFilePath());
                     fact.setCredibility(1);
                     fact.setDescription("类文件继承（直接或间接）javax.servlet.http.HttpServlet");
                     fact.setMethod("do*");

@@ -20,9 +20,8 @@
     <caption>Routes</caption>
     <thead>
     <tr>
-        <th data-sortable="true" data-sorter="sortHander">ClassNameMD5</th>
+        <th data-sortable="true" data-sorter="sortHander">MD5</th>
         <th>ClassName</th>
-        <th>ClassPath</th>
         <th>Method</th>
         <th>Routes</th>
         <th>Description</th>
@@ -33,9 +32,8 @@
     <tbody>
     {% for fact in facts %}
     <tr>
-        <td>{{fact.classNameMD5}}</td>
+        <td>{{fact.getMD5()}}</td>
         <td>{{fact.className}}</td>
-        <td>{{fact.classPath}}</td>
         <td>{{fact.method}}</td>
         <td>{{fact.routes}}</td>
         <td>{{fact.description}}</td>

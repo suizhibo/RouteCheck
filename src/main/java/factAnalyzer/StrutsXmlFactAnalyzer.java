@@ -53,7 +53,6 @@ public class StrutsXmlFactAnalyzer extends AbstractFactAnalyzer{
                             Fact fact = new Fact();
                             fact.setMethod(method);
                             fact.setClassName(clazz);
-                            fact.setClassNameMD5(Utils.getMD5Str(clazz));
                             fact.setRoute(route);
                             fact.setDescription(String.format("从%s中发现%s", config.getFilePath(),
                                     action.toString()));

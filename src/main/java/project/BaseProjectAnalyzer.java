@@ -130,22 +130,22 @@ public class BaseProjectAnalyzer {
         project.setService("default");
     }
     private void analysisClasses(){
-        String classPath = command.getClassPath();
-        this.tempClassPathLength = classPath.length();
-        List<String> classPaths = new ArrayList<>();
-        classPaths.add(classPath);
-        libs.addAll(jarFilePaths);
-        libs.add(JRE_DIR);
-        excludeJDKLibrary();
-        String sootClassPath = String.join(File.pathSeparator, classPaths) + File.pathSeparator +
-                String.join(File.pathSeparator, libs);
-        Scene.v().setSootClassPath(sootClassPath);
-        Options.v().set_process_dir(classPaths);
-        Options.v().set_whole_program(true);
-        Options.v().set_app(true);
-        scanClass(new File(classPath));
-        Scene.v().loadNecessaryClasses();
-        buildSootClass();
+            String classPath = command.getClassPath();
+            this.tempClassPathLength = classPath.length();
+            List<String> classPaths = new ArrayList<>();
+            classPaths.add(classPath);
+            libs.addAll(jarFilePaths);
+            libs.add(JRE_DIR);
+            excludeJDKLibrary();
+            String sootClassPath = String.join(File.pathSeparator, classPaths) + File.pathSeparator +
+                    String.join(File.pathSeparator, libs);
+            Scene.v().setSootClassPath(sootClassPath);
+            Options.v().set_process_dir(classPaths);
+            Options.v().set_whole_program(true);
+            Options.v().set_app(true);
+            scanClass(new File(classPath));
+            Scene.v().loadNecessaryClasses();
+            buildSootClass();
     }
 
     private static LinkedList<String> excludeList()

@@ -67,11 +67,10 @@ public class GuiceServletFactAnalyzer extends AbstractFactAnalyzer {
                                 if (!route.equals("") && !className.equals("")) {
                                     fact.setMethod("do*");
                                     fact.setClassName(className);
-                                    fact.setClassNameMD5(Utils.getMD5Str(className));
                                     fact.setCredibility(3);
                                     fact.setRoute(route);
                                     fact.setDescription(line);
-                                    fact.setFactName(getName());
+                                    fact.setFactName(this.getName());
                                     factChain.add(fact);
                                 }
                             }
