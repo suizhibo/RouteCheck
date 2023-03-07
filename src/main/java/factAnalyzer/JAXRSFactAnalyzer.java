@@ -20,7 +20,7 @@ public class JAXRSFactAnalyzer extends AbstractFactAnalyzer {
         super(JAXRSFactAnalyzer.class.getName(), "class", "");
     }
 
-    public JAXRSFactAnalyzer(String name, String type, String description){
+    public JAXRSFactAnalyzer(String name, String type, String description) {
         super(name, type, description);
     }
 
@@ -72,17 +72,22 @@ public class JAXRSFactAnalyzer extends AbstractFactAnalyzer {
                                 fact.setClassName(sootClass.getName());
                                 fact.setDescription("类文件中使用注解：" + annotationTags.toString() + "\n"
                                         + annotationTagsTemp.toString());
-                                prefix.forEach(p -> {
-                                    suffix.forEach(s -> {
-                                        if(s.startsWith("/") || p.endsWith("/")){
-                                            fact.setRoute(p + s);
-                                        }
-                                        else{
-                                            fact.setRoute(p + "/" + s);
-                                        }
+                                if (prefix.size() > 0) {
+                                    prefix.forEach(p -> {
+                                        suffix.forEach(s -> {
+                                            if (s.startsWith("/") || p.endsWith("/")) {
+                                                fact.setRoute(p + s);
+                                            } else {
+                                                fact.setRoute(p + "/" + s);
+                                            }
 
+                                        });
                                     });
-                                });
+                                } else {
+                                    suffix.forEach(s -> {
+                                        fact.setRoute(s);
+                                    });
+                                }
                                 fact.setMethod(sootMethod.getName());
                                 fact.setCredibility(3);
                                 fact.setFactName(this.getName());
