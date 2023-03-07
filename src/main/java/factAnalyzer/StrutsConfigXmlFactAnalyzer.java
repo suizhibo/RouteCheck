@@ -48,7 +48,8 @@ public class StrutsConfigXmlFactAnalyzer extends AbstractFactAnalyzer {
                             fact.setRoute(formBeanName);
                             fact.setClassName(formBeanType);
                             fact.setCredibility(2);
-                            fact.setDescription(String.format("从%s文件中发现%s", "", formBean.toString()));
+                            fact.setDescription(String.format("从struts-config文件中发现form-bean标签， 其name属性值为%s, type属性值为%s",
+                                    formBeanName, formBeanType));
                             fact.setFactName(getName());
                             factChain.add(fact);
                         } catch (Exception ex) {
@@ -60,13 +61,13 @@ public class StrutsConfigXmlFactAnalyzer extends AbstractFactAnalyzer {
                     actions.forEach(action -> {
                         try {
                             Fact fact = new Fact();
-                            String path = action.getAttributeValue("action");
+                            String path = action.getAttributeValue("path");
                             String actionType = action.getAttributeValue("type");
                             fact.setRoute(path);
                             fact.setClassName(actionType);
-                            fact.setClassName(Utils.getMD5Str(actionType));
                             fact.setCredibility(2);
-                            fact.setDescription(String.format("从%s文件中发现%s", "", action.toString()));
+                            fact.setDescription(String.format("从struts-config文件中发现action标签，其path属性为%s, " +
+                                    "type属性值是%s", path, actionType));
                             fact.setFactName(getName());
                             factChain.add(fact);
                         } catch (Exception ex) {
@@ -130,7 +131,7 @@ public class StrutsConfigXmlFactAnalyzer extends AbstractFactAnalyzer {
                 List<Element> actions = child.getChildren();
                 actions.forEach(action -> {
                     Fact fact = new Fact();
-                    String path = action.getAttributeValue("action");
+                    String path = action.getAttributeValue("path");
                     String actionType = action.getAttributeValue("type");
                     fact.setRoute(path);
                     fact.setClassName(actionType);

@@ -55,8 +55,8 @@ public class StrutsXmlFactAnalyzer extends AbstractFactAnalyzer{
                             fact.setMethod(method);
                             fact.setClassName(clazz);
                             fact.setRoute(route);
-                            fact.setDescription(String.format("从%s中发现%s", config.getFilePath(),
-                                    action.toString()));
+                            fact.setDescription(String.format("从%s中发现action标签，其name属性值为%s，其class属性值为%s", config.getFilePath(),
+                                    actionName, clazz));
                             fact.setCredibility(3);
                             fact.setFactName(getName());
                             factChain.add(fact);

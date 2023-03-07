@@ -12,19 +12,82 @@ import utils.Utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 //https://www.cnblogs.com/lyh233/p/12047942.html
 @FactAnalyzerAnnotations(
         name = "SpringMVCWebXmlFactAnalyzer"
 )
-public class SpringMVCWebXmlFactAnalyzer extends SpringFactAnalyzer {
+public class SpringMVCWebXmlFactAnalyzer extends SpringAnnotationFactAnalyzer {
+
+    private Set<Element> beans = new HashSet<>();
+    private Map<String, Element> idToBean = new HashMap<>();
+    private Element simpleUrlHandlerMappingBean;
 
     public SpringMVCWebXmlFactAnalyzer(){
         super(SpringMVCWebXmlFactAnalyzer.class.getName(), "config", "");
     }
+
+    private void analysisRemoting(Element child, Collection<Fact> factChain){
+            Fact fact = new Fact();
+            List<Element> properties = child.getChildren();
+            properties.forEach(property ->{
+                if(property.getName().equals("property")){
+                    if(property.getAttributeValue("name").equals("serviceName")){
+                        String route = property.getChildText("value", property.getNamespace());
+                        fact.setCredibility(3);
+                        fact.setDescription(child.toString());
+                        fact.setRoute(route);
+                    }
+                    if(property.getAttributeValue("name").equals("service")){
+                        String route = property.getAttributeValue("ref");
+                        fact.setCredibility(3);
+                        fact.setDescription(child.toString());
+                        fact.setRoute(route);
+                    }
+                    if(property.getAttributeValue("name").equals("serviceInterface")){
+                        String clazzName = "";
+                        try{
+                            clazzName = property.getChildText("value", property.getNamespace());
+                        }catch (Exception ex){
+                            clazzName = property.getAttributeValue("value");
+                        }
+                        fact.setCredibility(3);
+                        fact.setDescription(child.toString());
+                        fact.setClassName(clazzName);
+                        fact.setFactName(getName());
+                        factChain.add(fact);
+                    }
+                }
+            });
+    }
+    private void analysisMultiActionController(Collection<Fact> factChain){
+       // TODO
+    }
+    private void analysisAbstractController(Collection<Fact> factChain) {
+        beans.forEach(child -> {
+            Fact fact = new Fact();
+            String clazz = child.getAttributeValue("class");
+            String oldClazz = clazz.substring(clazz.lastIndexOf(".") + 1);
+            String name = child.getAttributeValue("name");
+            if (name != null && oldClazz.endsWith("Controller")) {
+                fact.setDescription(child.toString());
+                if (name.startsWith("/")) {
+                    fact.setCredibility(3);
+                } else {
+                    fact.setCredibility(1);
+                }
+                fact.setMethod("handleRequest(#)");
+                fact.setRoute(name);
+                fact.setClassName(clazz);
+                fact.setFactName(getName());
+                factChain.add(fact);
+            }
+        });
+    }
+    private void analysisOtherController(Collection<Fact> factChain){}
+
     public void analysis(String dispatchXmlPath, Collection<Fact> factChain) {
         /*
          * bean标签 https://blog.csdn.net/ZixiangLi/article/details/87937819
@@ -36,67 +99,37 @@ public class SpringMVCWebXmlFactAnalyzer extends SpringFactAnalyzer {
             Document document = saxBuilder.build(is);
             Element rootElement = document.getRootElement();
             List<Element> children = rootElement.getChildren();
+            AtomicInteger flag = new AtomicInteger();
             children.forEach(child -> {
                 try {
                     if (child.getName().equals("bean")) {
-                        Fact fact = new Fact();
+                        beans.add(child);
                         String clazz = child.getAttributeValue("class");
                         // https://developer.aliyun.com/article/574556
                         if (clazz.equals("org.springframework.remoting.rmi.RmiServiceExporter") ||
                                 clazz.equals("org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter")) {
-                            List<Element> properties = child.getChildren();
-                            properties.forEach(property ->{
-                                if(property.getName().equals("property")){
-                                    if(property.getAttributeValue("name").equals("serviceName")){
-                                        String route = property.getChildText("value", property.getNamespace());
-                                        fact.setCredibility(3);
-                                        fact.setDescription(child.toString());
-                                        fact.setRoute(route);
-                                    }
-                                    if(property.getAttributeValue("name").equals("service")){
-                                        String route = property.getAttributeValue("ref");
-                                        fact.setCredibility(3);
-                                        fact.setDescription(child.toString());
-                                        fact.setRoute(route);
-                                    }
-                                    if(property.getAttributeValue("name").equals("serviceInterface")){
-                                        String clazzName = "";
-                                        try{
-                                            clazzName = property.getChildText("value", property.getNamespace());
-                                        }catch (Exception ex){
-                                            clazzName = property.getAttributeValue("value");
-                                        }
-                                        fact.setCredibility(3);
-                                        fact.setDescription(child.toString());
-                                        fact.setClassName(clazzName);
-                                        fact.setFactName(getName());
-                                        factChain.add(fact);
-                                    }
-                                }
-                            });
-                            return;
+                           analysisRemoting(child, factChain);
                         }
-                        String oldClazz = clazz.substring(clazz.lastIndexOf(".") + 1);
-                        String name = child.getAttributeValue("name");
-                        if (name != null && oldClazz.endsWith("Controller")) {
-                            fact.setDescription(child.toString());
-                            if (name.startsWith("/")) {
-                                fact.setCredibility(3);
-                            } else {
-                                fact.setCredibility(1);
-                            }
-                            fact.setMethod("handleRequest");
-                            fact.setRoute(name);
-                            fact.setClassName(clazz);
-                            fact.setFactName(getName());
-                            factChain.add(fact);
+                        // https://blog.csdn.net/q3498233/article/details/6703101
+                        else if (clazz.equals("org.springframework.web.servlet.handler.SimpleUrlHandlerMapping")){
+                            simpleUrlHandlerMappingBean = child;
+                            flag.set(1);
                         }
-
                     }
                 } catch (Exception e) {
 
                 }
             });
+            switch (flag.get()){
+                case 0:
+                    analysisAbstractController(factChain);
+                    break;
+                case 1:
+                    analysisMultiActionController(factChain);
+                    break;
+                default:
+                    analysisOtherController(factChain);
+            }
         } catch (Exception e) {
         }
     }
