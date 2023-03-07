@@ -1,0 +1,10 @@
+factAnalyzers:
+  default: [ApacheCXFFactAnalyzer, ApacheWinkFactAnalyzer, GuiceServletFactAnalyzer,
+            HttpServletFactAnalyzer, JerseyFactAnalyzer, RESTEasyFactAnalyzer, RestletFactAnalyzer,
+            SpringBeanFactAnalyzer, SpringBootAnnotationFactAnalyzer,
+            SpringMVCAnnotationFactAnalyzer, StrutsConfigXmlFactAnalyzer,
+            StrutsXmlFactAnalyzer, WSDDFactAnalyzer, WSDLFactAnalyzer, WebXmlFactAnalyzer, SOAPUnionFactAnalyzer,
+            UnionFactAnalyzer]
+outPutDirectory: D:\工作\专项工具\RouteCheck\output
+tempDirectory: D:\工作\专项工具\RouteCheck\output
+reportType: html
