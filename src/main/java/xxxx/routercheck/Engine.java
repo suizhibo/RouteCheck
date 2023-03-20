@@ -78,7 +78,7 @@ public class Engine {
                     }
                 }
             }
-            LOGGER.info(String.format("Load FactAnalyzers(%s)", analyzers.size()));
+            LOGGER.info(String.format("Load FactAnalyzers(%d)", analyzers.size()));
         } catch (Exception e) {
             throw new LoadFactAnalyzerException(e.getMessage());
         }
@@ -175,7 +175,7 @@ public class Engine {
         try {
             URL url = Engine.class.getResource("/xxxx/routercheck/factAnalyzer/");
             ArrayList<Class> destList = new ArrayList<>();
-            scanClass(url.toURI(), "xxxx/routercheck/factAnalyzer", FactAnalyzer.class, FactAnalyzerAnnotations.class, destList);
+            scanClass(url.toURI(), "xxxx.routercheck.factAnalyzer", FactAnalyzer.class, FactAnalyzerAnnotations.class, destList);
             destList.forEach(clazz -> {
                 String clazzName = clazz.getSimpleName();
                 factAnalyzerNameToClass.put(clazzName, clazz);
@@ -240,7 +240,7 @@ public class Engine {
         }
     }
 
-    private void run(String[] args) {
+    public void run(String[] args) {
         final long analysisStart = System.currentTimeMillis();
         try {
             parseCommand(args);

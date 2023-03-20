@@ -28,7 +28,7 @@ public class JsonReportGenerator extends AbstractReportGenerator{
             Date date = new Date();
             DateFormat df = new SimpleDateFormat("yyyy年MM月dd日");
             String dataStr = df.format(date);
-            context.put("xxxx/routercheck/project", this.project.getName());
+            context.put("project", this.project.getName());
             List<Map> facts = new ArrayList<>();
             this.factChain.forEach(fact -> {
                 facts.add(Utils.objectToMap(fact));
