@@ -25,7 +25,7 @@ public class HtmlReportGenerator extends AbstractReportGenerator{
         Date date = new Date();
         DateFormat df = new SimpleDateFormat("yyyy年MM月dd日");
         String dateStr = df.format(date);
-        context.put("xxxx/routercheck/project", this.project);
+        context.put("project", this.project);
         context.put("facts", this.factChain);
         context.put("date", dateStr);
         String template = Resources.toString(Resources.getResource(TEMPLATE_PATH), Charsets.UTF_8);
