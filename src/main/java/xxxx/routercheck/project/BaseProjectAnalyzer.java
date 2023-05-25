@@ -104,7 +104,7 @@ public class BaseProjectAnalyzer {
              classFilePaths) {
             String path = classFilePath.substring(this.tempClassPathLength);
             String newPath = path.substring(1, path.lastIndexOf("."));
-            newPath = newPath.replace("\\", ".");
+            newPath = newPath.replace(File.separator, ".");
             SootClass sootClass = Scene.v().loadClassAndSupport(newPath);
             if(!sootClass.isJavaLibraryClass()){
                 sootClassSet.add(sootClass);
